@@ -34,16 +34,43 @@
   font-display: swap;
 }
 
-/* Ivy Mode (drop the licensed file into /public/fonts — see README there).
-   Accepts woff2 / woff / otf / ttf; falls back to Instrument Serif until a
-   real file is provided. */
+/* Ivy Mode — full family lives in /public/fonts/ivy-mode/ */
 @font-face {
   font-family: "Ivy Mode";
   src:
-    url("/fonts/IvyMode-SemiBold.woff2") format("woff2"),
-    url("/fonts/IvyMode-SemiBold.woff") format("woff"),
-    url("/fonts/IvyMode-SemiBold.otf") format("opentype"),
-    url("/fonts/IvyMode-SemiBold.ttf") format("truetype");
+    url("/fonts/ivy-mode/IvyMode-Thin.woff2") format("woff2"),
+    url("/fonts/ivy-mode/IvyMode-Thin.woff") format("woff"),
+    url("/fonts/ivy-mode/IvyMode-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ivy Mode";
+  src:
+    url("/fonts/ivy-mode/IvyMode-Light.woff2") format("woff2"),
+    url("/fonts/ivy-mode/IvyMode-Light.woff") format("woff"),
+    url("/fonts/ivy-mode/IvyMode-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ivy Mode";
+  src:
+    url("/fonts/ivy-mode/IvyMode-Regular.woff2") format("woff2"),
+    url("/fonts/ivy-mode/IvyMode-Regular.woff") format("woff"),
+    url("/fonts/ivy-mode/IvyMode-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ivy Mode";
+  src:
+    url("/fonts/ivy-mode/IvyMode-SemiBold.woff2") format("woff2"),
+    url("/fonts/ivy-mode/IvyMode-SemiBold.woff") format("woff"),
+    url("/fonts/ivy-mode/IvyMode-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -51,11 +78,10 @@
 @font-face {
   font-family: "Ivy Mode";
   src:
-    url("/fonts/IvyMode-Regular.woff2") format("woff2"),
-    url("/fonts/IvyMode-Regular.woff") format("woff"),
-    url("/fonts/IvyMode-Regular.otf") format("opentype"),
-    url("/fonts/IvyMode-Regular.ttf") format("truetype");
-  font-weight: 400;
+    url("/fonts/ivy-mode/IvyMode-Bold.woff2") format("woff2"),
+    url("/fonts/ivy-mode/IvyMode-Bold.woff") format("woff"),
+    url("/fonts/ivy-mode/IvyMode-Bold.ttf") format("truetype");
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
