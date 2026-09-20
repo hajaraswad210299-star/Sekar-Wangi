@@ -1,0 +1,143 @@
+// Shared asset paths (exported from Figma) and static content for the Home page.
+// Kept in one place so both server and client components can use them.
+
+export const asset = {
+  group: "/figma/imgGroup.svg",
+  group1: "/figma/imgGroup1.svg",
+  group2: "/figma/imgGroup2.svg",
+  desainFlower: "/figma/imgDesainTanpaJudul41.png",
+  ellipse1: "/figma/imgEllipse1.png",
+  ellipse2: "/figma/imgEllipse2.png",
+  ellipse3: "/figma/imgEllipse3.png",
+  image17: "/figma/imgImage17.png",
+  image15: "/figma/imgImage15.png",
+  image1: "/figma/imgImage1.png",
+  image2: "/figma/imgImage2.png",
+  image3: "/figma/imgImage3.png",
+  frame60: "/figma/imgFrame60.png",
+  chatgpt: "/figma/imgChatGpt.png",
+  image6: "/figma/imgImage6.png",
+  image13: "/figma/imgImage13.png",
+  image8: "/figma/imgImage8.png",
+  image7: "/figma/imgImage7.png",
+  image11: "/figma/imgImage11.png",
+  frame61: "/figma/imgFrame61.png",
+  frame62: "/figma/imgFrame62.png",
+  frame63: "/figma/imgFrame63.png",
+  frame64: "/figma/imgFrame64.png",
+  frame65: "/figma/imgFrame65.png",
+  frame66: "/figma/imgFrame66.png",
+  frame67: "/figma/imgFrame67.png",
+  frame68: "/figma/imgFrame68.png",
+  flagId: "/figma/imgTwemojiFlagIndonesia.svg",
+  frame: "/figma/imgFrame.svg",
+  logo: "/figma/imgGroup3.svg",
+  searchIcon: "/figma/imgFrame1.svg",
+  group4: "/figma/imgGroup4.svg",
+  line1: "/figma/imgLine1.svg",
+  group5: "/figma/imgGroup5.svg",
+  group6: "/figma/imgGroup6.svg",
+  vector: "/figma/imgVector.svg",
+  arrowRight: "/figma/imgArrowRight.svg",
+  arrowRight1: "/figma/imgArrowRight1.svg",
+  star: "/figma/imgFrame2.svg",
+  group7: "/figma/imgGroup7.svg",
+  group8: "/figma/imgGroup8.svg",
+  group9: "/figma/imgGroup9.svg",
+  group10: "/figma/imgGroup10.svg",
+  group11: "/figma/imgGroup11.svg",
+  group12: "/figma/imgGroup12.svg",
+  group13: "/figma/imgGroup13.svg",
+  group14: "/figma/imgGroup14.svg",
+  group15: "/figma/imgGroup15.svg",
+  group16: "/figma/imgGroup16.svg",
+  arrowRight2: "/figma/imgArrowRight2.svg",
+  elementsArrowLeft: "/figma/imgElements.svg",
+  ellipse4: "/figma/imgEllipse4.svg",
+  arrowRight3: "/figma/imgArrowRight3.svg",
+  pinIcon: "/figma/imgGroup17.svg",
+  starFilled: "/figma/imgElements1.svg",
+  line3: "/figma/imgLine3.svg",
+  googleLogo: "/figma/imgGoogleLogo.svg",
+  frame30: "/figma/imgFrame30.svg",
+  brand1: "/figma/imgVector1.svg",
+  brand2: "/figma/imgVector2.svg",
+  brand3: "/figma/imgVector3.svg",
+  brand4: "/figma/imgVector4.svg",
+  brand5: "/figma/imgVector5.svg",
+  brand6: "/figma/imgGroup18.svg",
+  brand7: "/figma/imgGroup19.svg",
+  whatsapp: "/figma/imgIconsaxWhatsapp.svg",
+  social1: "/figma/imgFrame3.svg",
+  social2: "/figma/imgFrame4.svg",
+  social3: "/figma/imgFrame5.svg",
+  group20: "/figma/imgGroup20.svg",
+  group21: "/figma/imgGroup21.svg",
+} as const;
+
+export const navLinks = ["Home", "Product", "Location", "Moment"] as const;
+
+export const favorites = [
+  { img: asset.image1, name: "Sunset Orchid", price: "Rp 52.000" },
+  { img: asset.image2, name: "Lavender Dreams", price: "Rp 38.500" },
+  { img: asset.image3, name: "Golden Daisy", price: "Rp 47.750" },
+  { img: asset.frame60, name: "Cherry Blossom Charm", price: "Rp 50.300" },
+] as const;
+
+export const favoriteTabs = [
+  "Fresh Flower",
+  "Duka Cita",
+  "Ucapan Selamat",
+  "Standing Flower",
+] as const;
+
+export const stores = [
+  { img: asset.frame61, name: "Jakarta Pusat" },
+  { img: asset.frame62, name: "Semarang" },
+  { img: asset.frame63, name: "Yogyakarta" },
+  { img: asset.frame64, name: "Bandung" },
+  { img: asset.frame65, name: "Bali" },
+  { img: asset.frame66, name: "Medan" },
+  { img: asset.frame67, name: "Surabaya" },
+  { img: asset.frame68, name: "Tangerang" },
+] as const;
+
+export const brandLogos = [
+  { src: asset.brand1, w: 116.517, h: 28 },
+  { src: asset.brand2, w: 127.663, h: 40 },
+  { src: asset.brand3, w: 121.514, h: 40 },
+  { src: asset.brand4, w: 153.398, h: 42 },
+  { src: asset.brand5, w: 183.051, h: 36 },
+  { src: asset.brand6, w: 118.519, h: 32 },
+  { src: asset.brand7, w: 152.124, h: 28 },
+] as const;
+
+export const footerCols = [
+  {
+    title: "Belanja",
+    items: ["Bunga", "Karangan Bunga Papan", "Kado & Cakes"],
+  },
+  {
+    title: "Pusat Bantuan",
+    items: [
+      "Cara Pemesanan",
+      "Frequently Answer Question (FAQ)",
+      "Pengiriman & Pengembalian",
+      "Hubungi Kami",
+      "Kebijakan Privasi",
+      "Akun Saya",
+    ],
+  },
+  {
+    title: "Lokasi Kami",
+    items: [
+      "Jakarta",
+      "Tangerang",
+      "Bandung",
+      "Surabaya",
+      "Yogyakarta",
+      "Bali",
+      "120+ Kota di Indonesia",
+    ],
+  },
+] as const;

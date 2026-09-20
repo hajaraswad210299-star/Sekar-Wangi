@@ -1,937 +1,544 @@
-// Sekar Wangi — Home page
-// Faithful implementation of the Figma design (node 1:284).
-// Assets live in /public/figma, fonts in /public/fonts.
+import {
+  asset,
+  favorites,
+  favoriteTabs,
+  stores,
+  brandLogos,
+  footerCols,
+} from "@/components/figmaAssets";
+import Navbar from "@/components/site/Navbar";
+import Reveal from "@/components/site/Reveal";
+import type { ReactNode } from "react";
 
-const imgGroup = "/figma/imgGroup.svg";
-const imgGroup1 = "/figma/imgGroup1.svg";
-const imgGroup2 = "/figma/imgGroup2.svg";
-const imgDesainTanpaJudul41 = "/figma/imgDesainTanpaJudul41.png";
-const imgEllipse1 = "/figma/imgEllipse1.png";
-const imgEllipse2 = "/figma/imgEllipse2.png";
-const imgEllipse3 = "/figma/imgEllipse3.png";
-const imgImage17 = "/figma/imgImage17.png";
-const imgImage15 = "/figma/imgImage15.png";
-const imgImage1 = "/figma/imgImage1.png";
-const imgImage2 = "/figma/imgImage2.png";
-const imgImage3 = "/figma/imgImage3.png";
-const imgFrame60 = "/figma/imgFrame60.png";
-const imgChatGptImageSep162026074141Pm2 = "/figma/imgChatGpt.png";
-const imgImage6 = "/figma/imgImage6.png";
-const imgImage13 = "/figma/imgImage13.png";
-const imgImage8 = "/figma/imgImage8.png";
-const imgImage7 = "/figma/imgImage7.png";
-const imgImage11 = "/figma/imgImage11.png";
-const imgFrame61 = "/figma/imgFrame61.png";
-const imgFrame62 = "/figma/imgFrame62.png";
-const imgFrame63 = "/figma/imgFrame63.png";
-const imgFrame64 = "/figma/imgFrame64.png";
-const imgFrame65 = "/figma/imgFrame65.png";
-const imgFrame66 = "/figma/imgFrame66.png";
-const imgFrame67 = "/figma/imgFrame67.png";
-const imgFrame68 = "/figma/imgFrame68.png";
-const imgTwemojiFlagIndonesia = "/figma/imgTwemojiFlagIndonesia.svg";
-const imgFrame = "/figma/imgFrame.svg";
-const imgGroup3 = "/figma/imgGroup3.svg";
-const imgFrame1 = "/figma/imgFrame1.svg";
-const imgGroup4 = "/figma/imgGroup4.svg";
-const imgLine1 = "/figma/imgLine1.svg";
-const imgGroup5 = "/figma/imgGroup5.svg";
-const imgGroup6 = "/figma/imgGroup6.svg";
-const imgVector = "/figma/imgVector.svg";
-const imgArrowRight = "/figma/imgArrowRight.svg";
-const imgArrowRight1 = "/figma/imgArrowRight1.svg";
-const imgFrame2 = "/figma/imgFrame2.svg";
-const imgGroup7 = "/figma/imgGroup7.svg";
-const imgGroup8 = "/figma/imgGroup8.svg";
-const imgGroup9 = "/figma/imgGroup9.svg";
-const imgGroup10 = "/figma/imgGroup10.svg";
-const imgGroup11 = "/figma/imgGroup11.svg";
-const imgGroup12 = "/figma/imgGroup12.svg";
-const imgGroup13 = "/figma/imgGroup13.svg";
-const imgGroup14 = "/figma/imgGroup14.svg";
-const imgGroup15 = "/figma/imgGroup15.svg";
-const imgGroup16 = "/figma/imgGroup16.svg";
-const imgArrowRight2 = "/figma/imgArrowRight2.svg";
-const imgElements = "/figma/imgElements.svg";
-const imgEllipse4 = "/figma/imgEllipse4.svg";
-const imgArrowRight3 = "/figma/imgArrowRight3.svg";
-const imgGroup17 = "/figma/imgGroup17.svg";
-const imgElements1 = "/figma/imgElements1.svg";
-const imgLine3 = "/figma/imgLine3.svg";
-const imgGoogleLogo = "/figma/imgGoogleLogo.svg";
-const imgFrame30 = "/figma/imgFrame30.svg";
-const imgVector1 = "/figma/imgVector1.svg";
-const imgVector2 = "/figma/imgVector2.svg";
-const imgVector3 = "/figma/imgVector3.svg";
-const imgVector4 = "/figma/imgVector4.svg";
-const imgVector5 = "/figma/imgVector5.svg";
-const imgGroup18 = "/figma/imgGroup18.svg";
-const imgGroup19 = "/figma/imgGroup19.svg";
-const imgIconsaxWhatsapp = "/figma/imgIconsaxWhatsapp.svg";
-const imgFrame3 = "/figma/imgFrame3.svg";
-const imgFrame4 = "/figma/imgFrame4.svg";
-const imgFrame5 = "/figma/imgFrame5.svg";
-const imgGroup20 = "/figma/imgGroup20.svg";
-const imgGroup21 = "/figma/imgGroup21.svg";
+/* ------------------------------------------------------------------ */
+/*  Small helpers                                                      */
+/* ------------------------------------------------------------------ */
 
-function IconsaxBag2({ className }: { className?: string }) {
+function MaskIcon({
+  size,
+  inner,
+  mask,
+  children,
+}: {
+  size: number;
+  inner: string;
+  mask: string;
+  children: ReactNode;
+}) {
   return (
-    <div className={className || "overflow-clip relative size-[20px]"} data-name="iconsax-bag-2">
-      <div className="absolute contents inset-0" data-name="Clip path group">
-        <div className="absolute inset-[8.37%_13.54%_8.33%_13.54%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-2.708px_-1.673px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup}")` }} data-name="Group">
-          <div className="absolute inset-[-4.5%_-5.14%]">
-            <img alt="" className="block max-w-none size-full" src={imgGroup1} />
+    <div className="overflow-clip relative shrink-0" style={{ width: size, height: size }}>
+      <div
+        className={`absolute mask-alpha mask-intersect mask-no-repeat ${inner}`}
+        style={{ maskImage: `url("${mask}")` }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+const featureItems = [
+  {
+    title: "Jangkauan Luas",
+    desc: "Kirim ke lebih dari 200+ kota di indonesia",
+    icon: (
+      <MaskIcon size={34} mask={asset.group12} inner="inset-[8.33%] mask-position-[-1.667px_-1.667px] mask-size-[20px_20px]">
+        <div className="absolute inset-[-3.53%]"><img alt="" className="block max-w-none size-full" src={asset.group13} /></div>
+      </MaskIcon>
+    ),
+  },
+  {
+    title: "Bunga Segar",
+    desc: "Kami menyediakan 100% bunga segar",
+    icon: (
+      <div className="overflow-clip relative shrink-0 size-[34px]">
+        <div className="absolute inset-[4.99%_11.44%_3.42%_9.94%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={asset.group14} /></div>
+      </div>
+    ),
+  },
+  {
+    title: "Support 24/7",
+    desc: "Dukungan customer services 24 jam sehari",
+    icon: (
+      <MaskIcon size={34} mask={asset.group12} inner="inset-[8.33%_12.5%_8.39%_12.5%] mask-position-[-2.5px_-1.667px] mask-size-[20px_20px]">
+        <div className="absolute inset-[-3.53%_-3.92%]"><img alt="" className="block max-w-none size-full" src={asset.group15} /></div>
+      </MaskIcon>
+    ),
+  },
+  {
+    title: "Occasions",
+    desc: "Buat segala moment menjadi indah",
+    icon: (
+      <MaskIcon size={34} mask={asset.group12} inner="inset-[8.34%_10.42%_8.33%_10.42%] mask-position-[-2.083px_-1.668px] mask-size-[20px_20px]">
+        <div className="absolute inset-[-3.53%_-3.72%]"><img alt="" className="block max-w-none size-full" src={asset.group16} /></div>
+      </MaskIcon>
+    ),
+  },
+];
+
+function FeatureItem({ title, desc, icon }: (typeof featureItems)[number]) {
+  return (
+    <div className="flex flex-1 gap-[12px] items-center min-w-px">
+      {icon}
+      <div className="flex flex-1 flex-col items-start min-w-px">
+        <p className="font-bold leading-[1.35] text-[#3f425a] text-[16px]">{title}</p>
+        <p className="capitalize font-medium leading-[1.6] text-[#7a70ba] text-[14px]">{desc}</p>
+      </div>
+    </div>
+  );
+}
+
+const statCards = [
+  { num: "9.000+", label: "Order/bulan", mask: asset.group8, img: asset.group9, inner: "inset-[8.33%] mask-position-[-2.667px_-2.664px] mask-size-[32px_32px]" },
+  { num: "118+", label: "Wilayah", mask: asset.group8, img: asset.group10, inner: "inset-[7.29%_13.04%_7.29%_13%] mask-position-[-4.16px_-2.333px] mask-size-[32px_32px]" },
+  { num: "9.170+", label: "Klien Puas", mask: asset.group8, img: asset.group11, inner: "inset-[5.29%_7.29%] mask-position-[-2.333px_-1.693px] mask-size-[32px_32px]" },
+];
+
+function StatCard({ num, label, mask, img, inner }: (typeof statCards)[number]) {
+  return (
+    <div className="flex gap-[16px] items-center">
+      <div className="bg-[#e1e2ea] flex items-center justify-center p-[14px] shrink-0 size-[60px]">
+        <MaskIcon size={32} mask={mask} inner={inner}>
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
+        </MaskIcon>
+      </div>
+      <div className="flex flex-col font-medium items-start text-[#3f425a]">
+        <p className="leading-[1.2] text-[28px] tracking-[-0.56px] whitespace-nowrap">{num}</p>
+        <p className="leading-[1.35] text-[12px] tracking-[-0.12px] whitespace-nowrap">{label}</p>
+      </div>
+    </div>
+  );
+}
+
+function MiniStats() {
+  return (
+    <div className="flex flex-wrap gap-[30px] items-center">
+      <div className="flex gap-[12px] items-center">
+        <div className="flex items-center">
+          <img alt="" className="mr-[-16px] size-[44px]" height={44} width={44} src={asset.ellipse1} />
+          <img alt="" className="mr-[-16px] size-[44px]" height={44} width={44} src={asset.ellipse2} />
+          <img alt="" className="size-[44px]" height={44} width={44} src={asset.ellipse3} />
+        </div>
+        <div className="flex flex-col items-start">
+          <p className="font-semibold leading-[1.35] text-[#3f425a] text-[20px] whitespace-nowrap">200rb+</p>
+          <div className="flex gap-[4px] items-center">
+            <img alt="" className="size-[14px]" src={asset.star} />
+            <p className="font-medium leading-[1.35] text-[#3f425a] text-[12px] whitespace-nowrap">4.9 Rating</p>
           </div>
+        </div>
+      </div>
+      <div className="flex gap-[12px] items-center">
+        <div className="bg-[#928ac7] flex items-center justify-center rounded-[22px] size-[44px]">
+          <MaskIcon size={20} mask={asset.group} inner="inset-[9.44%_8.35%_9.5%_8.33%] mask-position-[-1.667px_-1.888px] mask-size-[20px_20px]">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={asset.group7} />
+          </MaskIcon>
+        </div>
+        <div className="flex flex-col items-start leading-[1.35] text-[#3f425a] whitespace-nowrap">
+          <p className="font-semibold text-[20px]">940+</p>
+          <p className="font-medium text-[12px]">Happy customer</p>
         </div>
       </div>
     </div>
   );
 }
 
-function IconsaxUser({ className }: { className?: string }) {
+const btnArrow = (
+  <span className="flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+    <span className="-scale-y-100 flex-none rotate-180">
+      <span className="block h-[12px] w-[19.555px]">
+        <img alt="" className="block max-w-none size-full" src={asset.arrowRight} />
+      </span>
+    </span>
+  </span>
+);
+
+function HeroButtons() {
   return (
-    <div className={className || "overflow-clip relative size-[20px]"} data-name="iconsax-user">
-      <div className="absolute contents inset-0" data-name="Clip path group">
-        <div className="absolute inset-[8.33%_14.21%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-2.842px_-1.667px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup}")` }} data-name="Group">
-          <div className="absolute inset-[-4.5%_-5.24%]">
-            <img alt="" className="block max-w-none size-full" src={imgGroup2} />
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-wrap gap-[16px] lg:gap-[20px] items-center">
+      <button className="group bg-[#544997] flex gap-[12px] h-[52px] items-center justify-center px-[24px] py-[14px] transition-colors hover:bg-[#443a86]">
+        <span className="font-medium leading-[1.35] text-[16px] text-white whitespace-nowrap">Kirim Bunga</span>
+        {btnArrow}
+      </button>
+      <button className="group border border-[#483f83] flex gap-[10px] h-[52px] items-center justify-center px-[32px] transition-colors hover:bg-[#483f83]/5">
+        <span className="font-medium leading-[1.4] text-[#483f83] text-[16px] whitespace-nowrap">Explore Produk</span>
+        <span className="flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+          <span className="-scale-y-100 flex-none rotate-180">
+            <span className="block h-[18.475px] w-[30.106px]"><img alt="" className="block max-w-none size-full" src={asset.arrowRight1} /></span>
+          </span>
+        </span>
+      </button>
     </div>
   );
 }
+
+function HeroText() {
+  return (
+    <div className="flex flex-col gap-[24px] items-start">
+      <div className="flex flex-col gap-[24px] items-start">
+        <h1 className="font-ivy font-semibold text-[#3f425a] text-[36px] sm:text-[44px] lg:text-[48px] xl:text-[64px] leading-[1.1]">
+          Pesan Bunga
+          <br />
+          Mudah dan Cepat
+        </h1>
+        <p className="font-normal text-[#696f96] text-[15px] sm:text-[16px] leading-[1.35]">
+          Kirim karangan bunga &amp; gift ke seluruh Indonesia. Garansi kualitas
+          &amp; pengiriman tepat waktu.
+        </p>
+      </div>
+      <HeroButtons />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
 
 export default function HomePage() {
   return (
-    <div className="bg-[#f3f2f7] content-stretch flex flex-col items-center relative w-[1440px] mx-auto" data-name="Home - Accepted">
-      <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
-        <div className="content-stretch flex flex-col items-start relative shrink-0 w-[1440px]" data-name="Top Navbar V.2">
-          <div className="bg-[#544997] content-stretch flex items-center justify-between px-[60px] py-[10px] relative shrink-0 w-full">
-            <div className="[word-break:break-word] capitalize content-stretch flex gap-[6px] items-center leading-[1.6] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">
-              <p className="font-sans font-medium relative shrink-0 tracking-[-0.28px]">
-                Tentang Sekar Wangi
-              </p>
-              <p className="font-sans font-normal relative shrink-0">•</p>
-              <p className="font-sans font-medium relative shrink-0 tracking-[-0.28px]">
-                Bantuan
-              </p>
-              <p className="font-sans font-normal relative shrink-0">•</p>
-              <p className="font-sans font-medium relative shrink-0 tracking-[-0.28px]">
-                Testimonial
-              </p>
-            </div>
-            <div className="content-stretch flex gap-[10px] items-center justify-center relative shrink-0">
-              <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
-                <div className="relative shrink-0 size-[16px]" data-name="twemoji:flag-indonesia">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgTwemojiFlagIndonesia} />
+    <div className="bg-[#f3f2f7] relative w-full overflow-x-hidden">
+      <div className="mx-auto w-full max-w-[1440px] relative">
+        <Navbar />
+
+        {/* ============================ HERO ============================ */}
+        <section className="relative w-full bg-[#f3f2f7]">
+          {/* ---------- Desktop hero (lg+) ---------- */}
+          <div className="hidden lg:block relative h-[832px] w-full overflow-hidden">
+            <img alt="" className="absolute left-[27.2%] top-0 h-[761px] w-[72.8%] max-w-none" src={asset.vector} />
+            <div className="absolute flex h-[185px] items-center justify-center left-0 top-0 w-[330px]">
+              <div className="-scale-y-100 flex-none">
+                <div className="h-[185px] opacity-86 relative w-[330px]">
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <img alt="" className="absolute h-[189.94%] left-[-17.42%] max-w-none top-[-78.15%] w-[189.51%]" src={asset.desainFlower} />
+                  </div>
                 </div>
-                <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">
-                  Indonesia
-                </p>
               </div>
-              <div className="relative shrink-0 size-[16px]" data-name="Frame">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
+            </div>
+            <div className="absolute left-[27.2%] top-0 h-[728px] w-[72.8%]" style={{ backgroundImage: "linear-gradient(225.85579637166063deg, rgba(242, 243, 247, 0.1) 33.91%, rgb(242, 243, 247) 71.597%)" }} />
+
+            <img alt="" className="absolute left-[41.875%] top-[176px] h-[752px] w-[29.375%] object-cover object-top pointer-events-none" src={asset.image17} />
+            <img alt="" className="absolute left-[58.125%] top-[176px] h-[658px] w-[26.4%] object-cover object-top pointer-events-none" src={asset.image15} />
+
+            <div className="absolute flex flex-col gap-[80px] items-start left-[60px] top-[136px] w-[608px] max-w-[42.2%] z-10">
+              <HeroText />
+              <MiniStats />
+            </div>
+
+            <div className="absolute flex flex-col gap-[34px] items-start left-[84.5%] top-[106px] z-10">
+              {statCards.map((s) => (
+                <StatCard key={s.label} {...s} />
+              ))}
+            </div>
+
+            <div className="absolute bg-[#dfddee] flex gap-[60px] items-center left-0 px-[60px] py-[22px] top-[728px] w-full">
+              {featureItems.map((f) => (
+                <FeatureItem key={f.title} {...f} />
+              ))}
+            </div>
+          </div>
+
+          {/* ---------- Mobile / tablet hero (<lg) ---------- */}
+          <div className="lg:hidden relative w-full overflow-hidden">
+            <img alt="" className="absolute -right-10 top-0 h-[420px] w-[520px] max-w-none opacity-70 pointer-events-none" src={asset.vector} />
+            <div className="relative px-5 md:px-10 pt-8 pb-10 flex flex-col gap-8">
+              <HeroText />
+              <div className="relative w-full h-[340px] sm:h-[420px] overflow-hidden rounded-[4px]">
+                <img alt="" className="absolute inset-0 size-full object-cover object-top" src={asset.image17} />
+              </div>
+              <MiniStats />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {statCards.map((s) => (
+                  <StatCard key={s.label} {...s} />
+                ))}
               </div>
             </div>
           </div>
-          <div className="bg-white content-stretch flex items-center justify-between px-[60px] py-[18px] relative shrink-0 w-full">
-            <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-              <div className="relative shrink-0 size-[44px]">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup3} />
-              </div>
-              <div className="[word-break:break-word] content-stretch flex flex-col gap-[2px] items-start justify-center relative shrink-0 text-[#574c9e]">
-                <p className="font-ivy font-semibold leading-[1.2] not-italic relative shrink-0 text-[26px] tracking-[0.26px] whitespace-nowrap">
-                  Sekar wangi
-                </p>
-                <p className="font-instrument italic leading-none min-w-full relative shrink-0 text-[12px] tracking-[0.12px] w-[min-content]">{`Buket Bunga & Kado`}</p>
-              </div>
-            </div>
-            <div className="bg-white border border-[#d9d6eb] border-solid content-stretch flex items-center justify-between px-[24px] py-[14px] relative rounded-[90px] shrink-0 w-[501px]">
-              <p className="[word-break:break-word] capitalize flex-[1_0_0] font-sans font-normal leading-[1.6] min-w-px not-italic relative text-[#696f96] text-[14px]">{` Cari berdasarkan nama atau jenis bunga...`}</p>
-              <div className="relative shrink-0 size-[20px]" data-name="Frame">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame1} />
-              </div>
-            </div>
-            <div className="bg-white content-stretch flex gap-[8px] items-center justify-end relative shrink-0">
-              <div className="bg-white content-stretch flex items-center justify-center p-[6px] relative shrink-0">
-                <IconsaxUser className="overflow-clip relative shrink-0 size-[24px]" />
-              </div>
-              <div className="bg-white content-stretch flex items-center justify-center p-[6px] relative shrink-0">
-                <IconsaxBag2 className="overflow-clip relative shrink-0 size-[24px]" />
-              </div>
-            </div>
+
+          {/* Feature strip (mobile/tablet) */}
+          <div className="lg:hidden bg-[#dfddee] grid grid-cols-1 sm:grid-cols-2 gap-x-[40px] gap-y-[22px] px-5 md:px-10 py-[22px] w-full">
+            {featureItems.map((f) => (
+              <FeatureItem key={f.title} {...f} />
+            ))}
           </div>
-          <div className="bg-white border-[#e1e2ea] border-solid border-t content-stretch flex items-center justify-between pt-[6px] px-[60px] relative shrink-0 w-full" data-name="Menu bar">
-            <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-              <div className="content-stretch flex gap-[12px] items-center p-[10px] relative shrink-0" data-name="menu">
-                <div className="overflow-clip relative shrink-0 size-[20px]" data-name="Frame">
-                  <div className="absolute contents inset-0" data-name="Clip path group">
-                    <div className="absolute inset-[18.75%_12.5%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-2.5px_-3.75px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup}")` }} data-name="Group">
-                      <div className="absolute inset-[-6%_-5%]">
-                        <img alt="" className="block max-w-none size-full" src={imgGroup4} />
-                      </div>
+        </section>
+
+        {/* ======================= FAVORITES ======================= */}
+        <section className="flex flex-col gap-[40px] lg:gap-[60px] items-center px-5 md:px-10 lg:px-[60px] py-[56px] lg:py-[80px] w-full">
+          <Reveal className="flex flex-col gap-[16px] items-center w-full">
+            <h2 className="font-ivy font-semibold leading-[1.2] text-[#3f425a] text-[30px] sm:text-[36px] lg:text-[40px] text-center">
+              Pilihan Favorit Saat Ini
+            </h2>
+            <div className="flex flex-wrap gap-[12px] sm:gap-[20px] items-center justify-center">
+              {favoriteTabs.map((tab, i) => (
+                <button
+                  key={tab}
+                  className={`flex items-center justify-center py-[10px] border-b-2 text-[14px] text-center whitespace-nowrap transition-colors ${
+                    i === 0
+                      ? "border-[#7a70ba] text-[#3f425a] font-medium"
+                      : "border-transparent capitalize text-[#a5a8c0] hover:text-[#7a70ba]"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[20px] w-full">
+            {favorites.map((p, i) => (
+              <Reveal key={p.name} delay={i * 70}>
+                <a href="#" className="group block bg-[#f2f3f7] border border-[#e1e2ea] p-[16px] h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
+                  <div className="flex flex-col gap-[14px] h-full items-center">
+                    <div className="w-full overflow-hidden aspect-square lg:aspect-auto lg:flex-1 lg:min-h-px relative">
+                      <img alt={p.name} className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" src={p.img} />
+                    </div>
+                    <div className="flex flex-col gap-[6px] items-start leading-[1.35] text-[#3f425a] w-full">
+                      <p className="font-medium text-[15px] lg:text-[16px]">{p.name}</p>
+                      <p className="font-bold text-[18px] lg:text-[20px] whitespace-nowrap">{p.price}</p>
                     </div>
                   </div>
-                </div>
-                <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#3f425a] text-[14px] whitespace-nowrap">
-                  Categories
-                </p>
-              </div>
-              <div className="flex h-[26px] items-center justify-center relative shrink-0 w-0">
-                <div className="flex-none rotate-90">
-                  <div className="h-0 relative w-[26px]">
-                    <div className="absolute inset-[-1px_0_0_0]">
-                      <img alt="" className="block max-w-none size-full" src={imgLine1} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-                <div className="bg-white border-[#928ac7] border-b-2 border-solid content-stretch flex gap-[8px] items-center py-[10px] relative shrink-0" data-name="Navbar base">
-                  <p className="[word-break:break-word] font-sans font-medium leading-[1.6] not-italic relative shrink-0 text-[#928ac7] text-[14px] whitespace-nowrap">
-                    Home
-                  </p>
-                </div>
-                <div className="bg-white content-stretch flex gap-[8px] items-center py-[10px] relative shrink-0" data-name="Navbar base">
-                  <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#3f425a] text-[14px] whitespace-nowrap">
-                    Product
-                  </p>
-                </div>
-                <div className="bg-white content-stretch flex gap-[8px] items-center py-[10px] relative shrink-0" data-name="Navbar base">
-                  <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#3f425a] text-[14px] whitespace-nowrap">
-                    Location
-                  </p>
-                </div>
-                <div className="bg-white content-stretch flex gap-[8px] items-center py-[10px] relative shrink-0" data-name="Navbar base">
-                  <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#3f425a] text-[14px] whitespace-nowrap">
-                    Moment
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="content-stretch flex gap-[6px] items-center relative shrink-0">
-              <div className="overflow-clip relative shrink-0 size-[16px]" data-name="Frame">
-                <div className="absolute contents inset-0" data-name="Clip path group">
-                  <div className="absolute inset-[8.33%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-1.333px_-1.333px] mask-size-[16px_16px]" style={{ maskImage: `url("${imgGroup5}")` }} data-name="Group">
-                    <div className="absolute inset-[-4.5%]">
-                      <img alt="" className="block max-w-none size-full" src={imgGroup6} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#7a70ba] text-[14px] whitespace-nowrap">
-                Chat Support: (+62) 856 4581 8745 321
-              </p>
-            </div>
+                </a>
+              </Reveal>
+            ))}
           </div>
-        </div>
-        <div className="bg-[#f3f2f7] h-[832px] overflow-clip relative shrink-0 w-full">
-          <div className="absolute h-[761px] left-[392px] top-0 w-[1048px]" data-name="Vector">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector} />
-          </div>
-          <div className="absolute flex h-[185px] items-center justify-center left-0 top-0 w-[330px]">
-            <div className="-scale-y-100 flex-none">
-              <div className="h-[185px] opacity-86 relative w-[330px]" data-name="Desain tanpa judul (4) 1">
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  <img alt="" className="absolute h-[189.94%] left-[-17.42%] max-w-none top-[-78.15%] w-[189.51%]" src={imgDesainTanpaJudul41} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="absolute h-[728px] left-[392px] top-0 w-[1048px]" style={{ backgroundImage: "linear-gradient(225.85579637166063deg, rgba(242, 243, 247, 0.1) 33.91%, rgb(242, 243, 247) 71.597%)" }} />
-          <div className="absolute content-stretch flex flex-col gap-[80px] items-start left-[60px] top-[136px] w-[608px]">
-            <div className="content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full">
-              <div className="[word-break:break-word] content-stretch flex flex-col gap-[24px] items-start leading-[0] not-italic relative shrink-0 w-full">
-                <div className="font-ivy font-semibold relative shrink-0 text-[#3f425a] text-[64px] w-full">
-                  <p className="leading-[1.1] mb-0">Pesan Bunga</p>
-                  <p className="leading-[1.1]">Mudah dan Cepat</p>
-                </div>
-                <div className="font-sans font-normal relative shrink-0 text-[#696f96] text-[16px] w-full">
-                  <p className="leading-[1.35] mb-0">{`Kirim karangan bunga & gift ke seluruh Indonesia. Garansi kualitas`}</p>
-                  <p className="leading-[1.35]">{`& pengiriman tepat waktu.`}</p>
-                </div>
-              </div>
-              <div className="content-stretch flex gap-[20px] items-center relative shrink-0">
-                <div className="bg-[#544997] content-stretch flex gap-[12px] h-[52px] items-center justify-center px-[24px] py-[14px] relative shrink-0" data-name="Component 2">
-                  <p className="[word-break:break-word] font-sans font-medium leading-[1.35] not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
-                    Kirim Bunga
-                  </p>
-                  <div className="flex items-center justify-center relative shrink-0">
-                    <div className="-scale-y-100 flex-none rotate-180">
-                      <div className="h-[12px] relative w-[19.555px]" data-name="Arrow-right">
-                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowRight} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="border border-[#483f83] border-solid content-stretch flex gap-[10px] h-[52px] items-center justify-center px-[32px] relative shrink-0" data-name="Button">
-                  <p className="[word-break:break-word] font-sans font-medium leading-[1.4] not-italic relative shrink-0 text-[#483f83] text-[16px] whitespace-nowrap">
-                    Explore Produk
-                  </p>
-                  <div className="flex items-center justify-center relative shrink-0">
-                    <div className="-scale-y-100 flex-none rotate-180">
-                      <div className="h-[18.475px] relative w-[30.106px]" data-name="Arrow-right">
-                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowRight1} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="content-stretch flex gap-[30px] items-center relative shrink-0 w-full">
-              <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-                <div className="content-stretch flex items-center relative shrink-0">
-                  <div className="mr-[-16px] relative shrink-0 size-[44px]">
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" height="44" src={imgEllipse1} width="44" />
-                  </div>
-                  <div className="mr-[-16px] relative shrink-0 size-[44px]">
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" height="44" src={imgEllipse2} width="44" />
-                  </div>
-                  <div className="relative shrink-0 size-[44px]">
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" height="44" src={imgEllipse3} width="44" />
-                  </div>
-                </div>
-                <div className="content-stretch flex flex-col items-start relative shrink-0">
-                  <p className="[word-break:break-word] font-sans font-semibold leading-[1.35] not-italic relative shrink-0 text-[#3f425a] text-[20px] whitespace-nowrap">
-                    200rb+
-                  </p>
-                  <div className="content-stretch flex gap-[4px] items-center relative shrink-0">
-                    <div className="relative shrink-0 size-[14px]" data-name="Frame">
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame2} />
-                    </div>
-                    <p className="[word-break:break-word] font-sans font-medium leading-[1.35] not-italic relative shrink-0 text-[#3f425a] text-[12px] whitespace-nowrap">
-                      4.9 Rating
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
-                <div className="bg-[#928ac7] content-stretch flex items-center justify-center px-[12px] py-[8px] relative rounded-[22px] shrink-0 size-[44px]">
-                  <div className="overflow-clip relative shrink-0 size-[20px]" data-name="Frame">
-                    <div className="absolute contents inset-0" data-name="Clip path group">
-                      <div className="absolute inset-[9.44%_8.35%_9.5%_8.33%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-1.667px_-1.888px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup}")` }} data-name="Group">
-                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup7} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="[word-break:break-word] content-stretch flex flex-col items-start leading-[1.35] not-italic relative shrink-0 text-[#3f425a] whitespace-nowrap">
-                  <p className="font-sans font-semibold relative shrink-0 text-[20px]">
-                    940+
-                  </p>
-                  <p className="font-sans font-medium relative shrink-0 text-[12px]">
-                    Happy customer
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="absolute h-[752px] left-[603px] top-[176px] w-[423px]" data-name="image 17">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage17} />
-          </div>
-          <div className="absolute content-stretch flex flex-col gap-[34px] items-start left-[1217px] top-[106px]">
-            <div className="content-stretch flex gap-[16px] items-center relative shrink-0">
-              <div className="bg-[#e1e2ea] content-stretch flex items-center justify-center p-[14px] relative shrink-0 size-[60px]">
-                <div className="overflow-clip relative shrink-0 size-[32px]" data-name="iconsax-bag">
-                  <div className="absolute contents inset-0" data-name="Clip path group">
-                    <div className="absolute inset-[8.33%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-2.667px_-2.664px] mask-size-[32px_32px]" style={{ maskImage: `url("${imgGroup8}")` }} data-name="Group">
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup9} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="[word-break:break-word] content-stretch flex flex-col font-sans font-medium items-start not-italic relative shrink-0 text-[#3f425a]">
-                <p className="leading-[1.2] relative shrink-0 text-[28px] tracking-[-0.56px] whitespace-nowrap">
-                  9.000+
-                </p>
-                <p className="leading-[1.35] min-w-full relative shrink-0 text-[12px] tracking-[-0.12px] w-[min-content]">
-                  Order/bulan
-                </p>
-              </div>
-            </div>
-            <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-full">
-              <div className="bg-[#e1e2ea] content-stretch flex items-center justify-center p-[14px] relative shrink-0 size-[60px]">
-                <div className="overflow-clip relative shrink-0 size-[32px]" data-name="iconsax-location">
-                  <div className="absolute contents inset-0" data-name="Clip path group">
-                    <div className="absolute inset-[7.29%_13.04%_7.29%_13%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-4.16px_-2.333px] mask-size-[32px_32px]" style={{ maskImage: `url("${imgGroup8}")` }} data-name="Group">
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup10} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="[word-break:break-word] content-stretch flex flex-col font-sans font-medium items-start not-italic relative shrink-0 text-[#3f425a] w-[73px]">
-                <p className="leading-[1.2] relative shrink-0 text-[28px] tracking-[-0.56px] w-full">
-                  118+
-                </p>
-                <p className="leading-[1.35] relative shrink-0 text-[12px] tracking-[-0.12px] w-full">
-                  Wilayah
-                </p>
-              </div>
-            </div>
-            <div className="content-stretch flex gap-[16px] items-center relative shrink-0 w-full">
-              <div className="bg-[#e1e2ea] content-stretch flex items-center justify-center p-[14px] relative shrink-0 size-[60px]">
-                <div className="overflow-clip relative shrink-0 size-[32px]" data-name="iconsax-ai-users">
-                  <div className="absolute contents inset-0" data-name="Clip path group">
-                    <div className="absolute inset-[5.29%_7.29%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-2.333px_-1.693px] mask-size-[32px_32px]" style={{ maskImage: `url("${imgGroup8}")` }} data-name="Group">
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup11} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="[word-break:break-word] content-stretch flex flex-col font-sans font-medium items-start not-italic relative shrink-0 text-[#3f425a]">
-                <p className="leading-[1.2] relative shrink-0 text-[28px] tracking-[-0.56px] w-full">
-                  9.170+
-                </p>
-                <p className="leading-[1.35] relative shrink-0 text-[12px] tracking-[-0.12px] w-full">
-                  Klien Puas
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="absolute h-[658px] left-[837px] top-[176px] w-[380px]" data-name="image 15">
-            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage15} />
-          </div>
-          <div className="absolute bg-[#dfddee] content-stretch flex gap-[60px] items-center left-0 px-[60px] py-[22px] top-[728px] w-[1440px]">
-            <div className="content-stretch flex flex-[1_0_0] gap-[12px] items-center min-w-px relative">
-              <div className="overflow-clip relative shrink-0 size-[34px]" data-name="Frame">
-                <div className="absolute contents inset-0" data-name="Clip path group">
-                  <div className="absolute inset-[8.33%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-1.667px_-1.667px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup12}")` }} data-name="Group">
-                    <div className="absolute inset-[-3.53%]">
-                      <img alt="" className="block max-w-none size-full" src={imgGroup13} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col items-start min-w-px not-italic relative">
-                <p className="font-sans font-bold leading-[1.35] relative shrink-0 text-[#3f425a] text-[16px] w-full">
-                  Jangkauan Luas
-                </p>
-                <p className="capitalize font-sans font-medium leading-[1.6] relative shrink-0 text-[#7a70ba] text-[14px] w-full">
-                  Kirim ke lebih dari 200+ kota di indonesia
-                </p>
-              </div>
-            </div>
-            <div className="content-stretch flex flex-[1_0_0] gap-[12px] items-center min-w-px relative">
-              <div className="overflow-clip relative shrink-0 size-[34px]" data-name="Frame">
-                <div className="absolute inset-[4.99%_11.44%_3.42%_9.94%]" data-name="Group">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup14} />
-                </div>
-              </div>
-              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col items-start min-w-px not-italic relative">
-                <p className="font-sans font-bold leading-[1.35] relative shrink-0 text-[#3f425a] text-[16px] w-full">
-                  Bunga Segar
-                </p>
-                <p className="capitalize font-sans font-medium leading-[1.6] relative shrink-0 text-[#7a70ba] text-[14px] w-full">
-                  Kami menyediakan 100% bunga segar
-                </p>
-              </div>
-            </div>
-            <div className="content-stretch flex flex-[1_0_0] gap-[12px] items-center min-w-px relative">
-              <div className="overflow-clip relative shrink-0 size-[34px]" data-name="Frame">
-                <div className="absolute contents inset-0" data-name="Clip path group">
-                  <div className="absolute inset-[8.33%_12.5%_8.39%_12.5%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-2.5px_-1.667px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup12}")` }} data-name="Group">
-                    <div className="absolute inset-[-3.53%_-3.92%]">
-                      <img alt="" className="block max-w-none size-full" src={imgGroup15} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col items-start min-w-px not-italic relative">
-                <p className="font-sans font-bold leading-[1.35] relative shrink-0 text-[#3f425a] text-[16px] w-full">
-                  Support 24/7
-                </p>
-                <p className="capitalize font-sans font-medium leading-[1.6] relative shrink-0 text-[#7a70ba] text-[14px] w-full">
-                  Dukungan customer services 24 jam sehari
-                </p>
-              </div>
-            </div>
-            <div className="content-stretch flex flex-[1_0_0] gap-[12px] items-center min-w-px relative">
-              <div className="overflow-clip relative shrink-0 size-[34px]" data-name="Frame">
-                <div className="absolute contents inset-0" data-name="Clip path group">
-                  <div className="absolute inset-[8.34%_10.42%_8.33%_10.42%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-2.083px_-1.668px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup12}")` }} data-name="Group">
-                    <div className="absolute inset-[-3.53%_-3.72%]">
-                      <img alt="" className="block max-w-none size-full" src={imgGroup16} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col items-start min-w-px not-italic relative">
-                <p className="font-sans font-bold leading-[1.35] relative shrink-0 text-[#3f425a] text-[16px] w-full">
-                  Occasions
-                </p>
-                <p className="capitalize font-sans font-medium leading-[1.6] relative shrink-0 text-[#7a70ba] text-[14px] w-full">
-                  Buat segala moment menjadi indah
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="content-stretch flex flex-col gap-[60px] items-center px-[60px] py-[80px] relative shrink-0 w-full">
-        <div className="content-stretch flex flex-col gap-[8px] items-center relative shrink-0 w-full">
-          <p className="[word-break:break-word] font-ivy font-semibold leading-[1.2] not-italic relative shrink-0 text-[#3f425a] text-[40px] text-center w-full">
-            Pilihan Favorit Saat Ini
-          </p>
-          <div className="content-stretch flex gap-[20px] items-center justify-center relative shrink-0 w-full">
-            <div className="border-[#7a70ba] border-b-2 border-solid content-stretch flex items-center justify-center py-[10px] relative shrink-0">
-              <p className="[word-break:break-word] font-sans font-medium leading-[1.6] not-italic relative shrink-0 text-[#3f425a] text-[14px] text-center whitespace-nowrap">
-                Fresh Flower
-              </p>
-            </div>
-            <div className="content-stretch flex items-center justify-center py-[10px] relative shrink-0">
-              <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#a5a8c0] text-[14px] text-center whitespace-nowrap">
-                Duka Cita
-              </p>
-            </div>
-            <div className="content-stretch flex items-center justify-center py-[10px] relative shrink-0">
-              <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#a5a8c0] text-[14px] text-center whitespace-nowrap">
-                Ucapan Selamat
-              </p>
-            </div>
-            <div className="content-stretch flex items-center justify-center py-[10px] relative shrink-0">
-              <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#a5a8c0] text-[14px] text-center whitespace-nowrap">
-                Standing Flower
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="content-stretch flex gap-[20px] items-center relative shrink-0 w-full">
-          <div className="bg-[#f2f3f7] border border-[#e1e2ea] border-solid content-stretch flex flex-col gap-[14px] h-[367px] items-center p-[16px] relative shrink-0 w-[315px]">
-            <div className="flex-[1_0_0] min-h-px relative w-full" data-name="image 1">
-              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage1} />
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[6px] items-start leading-[1.35] not-italic relative shrink-0 text-[#3f425a] w-full">
-              <p className="font-sans font-medium min-w-full relative shrink-0 text-[16px] w-[min-content]">
-                Sunset Orchid
-              </p>
-              <p className="font-sans font-bold relative shrink-0 text-[20px] whitespace-nowrap">
-                Rp 52.000
-              </p>
-            </div>
-          </div>
-          <div className="bg-[#f2f3f7] border border-[#e1e2ea] border-solid content-stretch flex flex-col gap-[14px] h-[367px] items-center p-[16px] relative shrink-0 w-[315px]">
-            <div className="flex-[1_0_0] min-h-px relative w-full" data-name="image 2">
-              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage2} />
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[6px] items-start leading-[1.35] not-italic relative shrink-0 text-[#3f425a] w-full">
-              <p className="font-sans font-medium min-w-full relative shrink-0 text-[16px] w-[min-content]">
-                Lavender Dreams
-              </p>
-              <p className="font-sans font-bold relative shrink-0 text-[20px] whitespace-nowrap">
-                Rp 38.500
-              </p>
-            </div>
-          </div>
-          <div className="bg-[#f2f3f7] border border-[#e1e2ea] border-solid content-stretch flex flex-col gap-[14px] h-[367px] items-center p-[16px] relative shrink-0 w-[315px]">
-            <div className="flex-[1_0_0] min-h-px relative w-full" data-name="image 3">
-              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage3} />
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[6px] items-start leading-[1.35] not-italic relative shrink-0 text-[#3f425a] w-full">
-              <p className="font-sans font-medium min-w-full relative shrink-0 text-[16px] w-[min-content]">
-                Golden Daisy
-              </p>
-              <p className="font-sans font-bold relative shrink-0 text-[20px] whitespace-nowrap">
-                Rp 47.750
-              </p>
-            </div>
-          </div>
-          <div className="bg-[#f2f3f7] border border-[#e1e2ea] border-solid content-stretch flex flex-col gap-[14px] h-[367px] items-center p-[16px] relative shrink-0 w-[315px]">
-            <div className="flex-[1_0_0] min-h-px relative w-full">
-              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgFrame60} />
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[6px] items-start leading-[1.35] not-italic relative shrink-0 text-[#3f425a] w-full">
-              <p className="font-sans font-medium min-w-full relative shrink-0 text-[16px] w-[min-content]">
-                Cherry Blossom Charm
-              </p>
-              <p className="font-sans font-bold relative shrink-0 text-[20px] whitespace-nowrap">
-                Rp 50.300
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="bg-[#e9e7f3] content-stretch flex h-[400px] items-center justify-between px-[60px] py-[40px] relative shrink-0 w-full">
-        <div className="content-stretch flex flex-col gap-[20px] h-full items-start justify-center relative shrink-0">
-          <p className="[word-break:break-word] font-ivy font-semibold leading-[1.2] not-italic relative shrink-0 text-[#3f425a] text-[40px] whitespace-nowrap">
-            Biarkan bunga yang berbicara
-          </p>
-          <p className="[word-break:break-word] font-sans font-normal leading-[1.5] min-w-full not-italic relative shrink-0 text-[#696f96] text-[16px] w-[min-content]">
-            Temukan rangkaian bunga segar yang dirancang untuk menyampaikan perasaan Anda.
-          </p>
-          <div className="content-stretch flex gap-[12px] items-center justify-center relative shrink-0" data-name="Component 3">
-            <p className="[word-break:break-word] font-sans font-medium leading-[1.35] not-italic relative shrink-0 text-[#483f83] text-[16px] whitespace-nowrap">
-              Lihat koleksi
+        </section>
+
+        {/* ==================== SPEAK / COLLECTION ==================== */}
+        <section className="bg-[#e9e7f3] relative flex flex-col lg:flex-row lg:h-[400px] items-center justify-between px-5 md:px-10 lg:px-[60px] py-[40px] gap-8 w-full overflow-hidden">
+          <Reveal className="flex flex-col gap-[20px] lg:h-full items-start justify-center relative z-10 max-w-[520px]">
+            <h2 className="font-ivy font-semibold leading-[1.2] text-[#3f425a] text-[28px] sm:text-[34px] lg:text-[40px]">
+              Biarkan bunga yang berbicara
+            </h2>
+            <p className="font-normal leading-[1.5] text-[#696f96] text-[15px] sm:text-[16px]">
+              Temukan rangkaian bunga segar yang dirancang untuk menyampaikan perasaan Anda.
             </p>
-            <div className="flex items-center justify-center relative shrink-0">
-              <div className="-scale-y-100 flex-none rotate-180">
-                <div className="h-[12px] relative w-[19.555px]" data-name="Arrow-right">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowRight2} />
-                </div>
-              </div>
+            <a href="#" className="group flex gap-[12px] items-center">
+              <span className="font-medium leading-[1.35] text-[#483f83] text-[16px] whitespace-nowrap">Lihat koleksi</span>
+              <span className="flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+                <span className="-scale-y-100 flex-none rotate-180">
+                  <span className="block h-[12px] w-[19.555px]"><img alt="" className="block max-w-none size-full" src={asset.arrowRight2} /></span>
+                </span>
+              </span>
+            </a>
+          </Reveal>
+          <div className="relative lg:absolute lg:h-[401px] lg:right-0 lg:top-[-1px] w-full lg:w-[711px] h-[220px] sm:h-[300px]">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <img alt="" className="absolute lg:h-[100.1%] lg:left-[-61.49%] lg:top-[-0.05%] lg:w-[168.8%] inset-0 size-full object-cover" src={asset.chatgpt} />
             </div>
           </div>
-        </div>
-        <div className="absolute h-[401px] left-[674px] top-[-1px] w-[711px]" data-name="ChatGPT Image">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <img alt="" className="absolute h-[100.1%] left-[-61.49%] max-w-none top-[-0.05%] w-[168.8%]" src={imgChatGptImageSep162026074141Pm2} />
-          </div>
-        </div>
-      </div>
-      <div className="bg-[#f3f2f7] content-stretch flex flex-col gap-[60px] items-start overflow-clip px-[40px] py-[80px] relative shrink-0 w-[1440px]" data-name="Customer Section">
-        <div className="[word-break:break-word] content-stretch flex flex-col gap-[14px] items-center justify-center not-italic relative shrink-0 w-full" data-name="Customer Content">
-          <p className="font-sans font-normal leading-[1.35] relative shrink-0 text-[#696f96] text-[20px] w-full text-center">
-            Testimonial
-          </p>
-          <p className="font-ivy font-semibold leading-[1.2] relative shrink-0 text-[#3f425a] text-[40px] w-full text-center">
-            Cerita Mereka
-          </p>
-        </div>
-        <div className="content-stretch flex flex-col gap-[46px] items-start relative shrink-0 w-full">
-          <div className="content-stretch flex gap-[24px] items-end justify-center relative shrink-0 w-full">
-            <div className="content-stretch flex gap-[24px] items-start relative shrink-0">
-              <div className="content-stretch flex items-center relative shrink-0">
-                <div className="h-[152px] relative shrink-0 w-[204px]" data-name="image 6">
-                  <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage6} />
-                </div>
+        </section>
+
+        {/* ====================== TESTIMONIALS ====================== */}
+        <section className="bg-[#f3f2f7] flex flex-col gap-[40px] lg:gap-[60px] items-start overflow-hidden px-5 md:px-10 lg:px-[40px] py-[56px] lg:py-[80px] w-full">
+          <Reveal className="flex flex-col gap-[10px] lg:gap-[14px] items-center justify-center w-full text-center">
+            <p className="font-normal leading-[1.35] text-[#696f96] text-[16px] lg:text-[20px]">Testimonial</p>
+            <h2 className="font-ivy font-semibold leading-[1.2] text-[#3f425a] text-[30px] sm:text-[36px] lg:text-[40px]">Cerita Mereka</h2>
+          </Reveal>
+          <div className="flex flex-col gap-[46px] items-start w-full">
+            <div className="flex gap-[24px] items-end justify-center w-full">
+              {/* side thumbnails — desktop only */}
+              <div className="hidden xl:flex gap-[24px] items-start shrink-0">
+                <img alt="" className="h-[152px] w-[204px] object-cover" src={asset.image6} />
+                <img alt="" className="h-[152px] w-[204px] object-cover" src={asset.image13} />
               </div>
-              <div className="h-[152px] relative shrink-0 w-[204px]" data-name="image 13">
-                <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage13} />
-              </div>
-              <div className="content-stretch flex gap-[40px] items-center relative shrink-0 w-[800px]">
-                <div className="flex flex-row items-center self-stretch">
-                  <div className="h-full relative shrink-0 w-[296px]" data-name="image 8">
-                    <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage8} />
-                  </div>
+              <Reveal className="flex flex-col md:flex-row gap-[24px] md:gap-[40px] items-center w-full xl:w-[800px]">
+                <div className="w-full md:w-[296px] shrink-0 overflow-hidden self-stretch">
+                  <img alt="" className="h-[280px] md:h-full w-full object-cover" src={asset.image8} />
                 </div>
-                <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col h-[351px] items-start justify-between min-w-px not-italic relative">
-                  <p className="font-sans font-normal leading-[1.5] relative shrink-0 text-[#3c3e3e] text-[28px] tracking-[-0.84px] w-full">
+                <div className="flex flex-1 flex-col md:h-[351px] items-start justify-between min-w-px gap-6">
+                  <p className="font-normal leading-[1.5] text-[#3c3e3e] text-[20px] sm:text-[24px] lg:text-[28px] tracking-[-0.84px]">
                     Bunganya bagus banget, pas sampai masih fresh dan penataannya juga rapi. Yang paling suka itu warnanya ternyata lebih cantik dari yang saya bayangkan.
                   </p>
-                  <div className="content-stretch flex flex-col gap-[6px] h-[60px] items-start justify-center leading-[1.2] relative shrink-0 w-full" data-name="Testimonial Footer">
-                    <p className="font-sans font-medium relative shrink-0 text-[#1d211d] text-[20px] tracking-[-0.6px] w-full">
-                      Alya Prameswari
-                    </p>
-                    <p className="font-sans font-normal relative shrink-0 text-[#879687] text-[16px] tracking-[-0.48px] w-full">
-                      Marketing Manager
-                    </p>
+                  <div className="flex flex-col gap-[6px] items-start justify-center leading-[1.2] w-full">
+                    <p className="font-medium text-[#1d211d] text-[18px] lg:text-[20px] tracking-[-0.6px]">Alya Prameswari</p>
+                    <p className="font-normal text-[#879687] text-[15px] lg:text-[16px] tracking-[-0.48px]">Marketing Manager</p>
                   </div>
                 </div>
+              </Reveal>
+              <div className="hidden xl:flex gap-[24px] items-center shrink-0">
+                <img alt="" className="h-[152px] w-[204px] object-cover" src={asset.image7} />
+                <img alt="" className="h-[152px] w-[204px] object-cover self-stretch" src={asset.image11} />
               </div>
             </div>
-            <div className="content-stretch flex gap-[24px] items-center relative shrink-0">
-              <div className="h-[152px] relative shrink-0 w-[204px]" data-name="image 7">
-                <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage7} />
+            {/* nav */}
+            <div className="flex gap-[12px] items-center w-full">
+              <button className="group flex items-center gap-[12px]">
+                <span className="relative size-[24px]">
+                  <span className="absolute inset-[26.95%_16.67%_26.96%_12.25%]"><img alt="" className="block size-full" src={asset.elementsArrowLeft} /></span>
+                </span>
+                <span className="font-medium leading-[1.2] text-[#cbcccd] text-[16px] tracking-[-0.48px]">Prev</span>
+              </button>
+              <div className="flex flex-1 items-center justify-center gap-[8px] px-[40px]">
+                <img alt="" className="size-[12px]" src={asset.ellipse4} />
+                <span className="bg-[#7a70ba] h-[12px] rounded-[90px] w-[30px]" />
+                <img alt="" className="size-[12px]" src={asset.ellipse4} />
+                <img alt="" className="size-[12px]" src={asset.ellipse4} />
+                <img alt="" className="size-[12px]" src={asset.ellipse4} />
+                <img alt="" className="size-[12px]" src={asset.ellipse4} />
               </div>
-              <div className="flex flex-row items-center self-stretch">
-                <div className="h-full relative shrink-0 w-[204px]" data-name="image 11">
-                  <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage11} />
-                </div>
-              </div>
+              <button className="group flex items-center gap-[12px]">
+                <span className="font-medium leading-[1.2] text-[#8d9091] text-[16px] tracking-[-0.48px]">Next</span>
+                <span className="flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+                  <span className="-scale-y-100 flex-none rotate-180">
+                    <span className="block h-[11.999px] w-[19.555px]"><img alt="" className="block max-w-none size-full" src={asset.arrowRight3} /></span>
+                  </span>
+                </span>
+              </button>
             </div>
           </div>
-          <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-name="Navigation Container">
-            <div className="relative shrink-0 size-[24px]" data-name="arrow-left-02">
-              <div className="absolute inset-[26.95%_16.67%_26.96%_12.25%]" data-name="elements">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgElements} />
-              </div>
+        </section>
+
+        {/* ======================== STORES ======================== */}
+        <section className="flex flex-col gap-[40px] lg:gap-[60px] items-start px-5 md:px-10 lg:px-[60px] py-[56px] lg:py-[100px] w-full">
+          <Reveal className="flex flex-col sm:flex-row gap-[16px] sm:items-center justify-center w-full">
+            <div className="flex flex-1 flex-col gap-[4px] items-start min-w-px">
+              <p className="font-medium leading-[1.35] text-[#696f96] text-[16px] lg:text-[20px]">Toko Kami</p>
+              <h2 className="font-ivy font-semibold leading-[1.2] text-[#3f425a] text-[28px] sm:text-[34px] lg:text-[40px]">Cari Berdasarkan Toko Terdekat</h2>
             </div>
-            <p className="[word-break:break-word] font-sans font-medium leading-[1.2] not-italic relative shrink-0 text-[#cbcccd] text-[16px] text-center tracking-[-0.48px] whitespace-nowrap">
-              Prev
-            </p>
-            <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
-              <div className="content-stretch flex flex-[1_0_0] gap-[8px] h-full items-center justify-center min-w-px px-[40px] relative" data-name="Navigation Links">
-                <div className="relative shrink-0 size-[12px]">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse4} />
-                </div>
-                <div className="bg-[#7a70ba] h-[12px] relative rounded-[90px] shrink-0 w-[30px]" data-name="Navigation Dots" />
-                <div className="relative shrink-0 size-[12px]">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse4} />
-                </div>
-                <div className="relative shrink-0 size-[12px]">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse4} />
-                </div>
-                <div className="relative shrink-0 size-[12px]">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse4} />
-                </div>
-                <div className="relative shrink-0 size-[12px]">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse4} />
-                </div>
-              </div>
+            <div className="border-[#c3c5d5] border-b flex gap-[20px] items-center shrink-0">
+              <button className="border-[#7a70ba] border-b-2 flex items-center justify-center py-[10px]">
+                <span className="font-medium leading-[1.35] text-[#3f425a] text-[16px] whitespace-nowrap">Toko Bunga</span>
+              </button>
+              <button className="flex items-center justify-center py-[10px] border-b-2 border-transparent transition-colors hover:border-[#c9c4e6]">
+                <span className="font-medium leading-[1.35] text-[#a5a8c0] text-[16px] whitespace-nowrap transition-colors hover:text-[#7a70ba]">Toko Kado</span>
+              </button>
             </div>
-            <p className="[word-break:break-word] font-sans font-medium leading-[1.2] not-italic relative shrink-0 text-[#8d9091] text-[16px] text-center tracking-[-0.48px] whitespace-nowrap">
-              Next
-            </p>
-            <div className="flex items-center justify-center relative shrink-0">
-              <div className="-scale-y-100 flex-none rotate-180">
-                <div className="h-[11.999px] relative w-[19.555px]" data-name="Arrow-right">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowRight3} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="content-stretch flex flex-col gap-[60px] items-start px-[60px] py-[100px] relative shrink-0 w-full">
-        <div className="content-stretch flex gap-[12px] items-center justify-center relative shrink-0 w-full">
-          <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start min-w-px not-italic relative">
-            <p className="font-sans font-medium leading-[1.35] min-w-full relative shrink-0 text-[#696f96] text-[20px] w-[min-content]">
-              Toko Kami
-            </p>
-            <p className="font-ivy font-semibold leading-[1.2] relative shrink-0 text-[#3f425a] text-[40px] whitespace-nowrap">
-              Cari Berdasarkan Toko Terdekat
-            </p>
-          </div>
-          <div className="border-[#c3c5d5] border-b border-solid content-stretch flex gap-[20px] items-center justify-center relative shrink-0">
-            <div className="border-[#7a70ba] border-b-2 border-solid content-stretch flex items-center justify-center py-[10px] relative shrink-0">
-              <p className="[word-break:break-word] font-sans font-medium leading-[1.35] not-italic relative shrink-0 text-[#3f425a] text-[16px] text-center whitespace-nowrap">
-                Toko Bunga
-              </p>
-            </div>
-            <div className="content-stretch flex items-center justify-center py-[10px] relative shrink-0">
-              <p className="[word-break:break-word] font-sans font-medium leading-[1.35] not-italic relative shrink-0 text-[#a5a8c0] text-[16px] text-center whitespace-nowrap">
-                Toko Kado
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="content-stretch flex flex-col gap-[20px] items-start relative shrink-0 w-full">
-          <div className="content-stretch flex gap-[20px] items-center relative shrink-0 w-full">
-            {[
-              { img: imgFrame61, name: "Jakarta Pusat" },
-              { img: imgFrame62, name: "Semarang" },
-              { img: imgFrame63, name: "Yogyakarta" },
-              { img: imgFrame64, name: "Bandung" },
-            ].map((s) => (
-              <StoreCard key={s.name} img={s.img} name={s.name} />
+          </Reveal>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[20px] w-full">
+            {stores.map((s, i) => (
+              <Reveal key={s.name} delay={(i % 4) * 70}>
+                <a href="#" className="group block bg-[#f2f3f7] border border-[#e1e2ea] h-full overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
+                  <div className="h-[200px] lg:h-[296px] relative w-full overflow-hidden">
+                    <div className="absolute bg-[#f0f1f5] inset-0" />
+                    <img alt={s.name} className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" src={s.img} />
+                  </div>
+                  <div className="flex flex-col gap-[6px] items-start justify-center px-[16px] py-[12px] w-full">
+                    <div className="flex gap-[6px] items-start w-full">
+                      <MaskIcon size={20} mask={asset.group} inner="inset-[5.21%_6.74%_5.21%_6.53%] mask-position-[-1.306px_-1.042px] mask-size-[20px_20px]">
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={asset.pinIcon} />
+                      </MaskIcon>
+                      <p className="capitalize leading-[1.6] text-[#696f96] text-[14px] whitespace-nowrap">Toko Bunga</p>
+                    </div>
+                    <p className="font-medium leading-[1.5] text-[#3f425a] text-[16px] lg:text-[18px] whitespace-nowrap">{s.name}</p>
+                  </div>
+                </a>
+              </Reveal>
             ))}
           </div>
-          <div className="content-stretch flex gap-[20px] items-center relative shrink-0 w-full">
-            {[
-              { img: imgFrame65, name: "Bali" },
-              { img: imgFrame66, name: "Medan" },
-              { img: imgFrame67, name: "Surabaya" },
-              { img: imgFrame68, name: "Tangerang" },
-            ].map((s) => (
-              <StoreCard key={s.name} img={s.img} name={s.name} />
+        </section>
+
+        {/* ======================= TRUSTED BY ======================= */}
+        <section className="flex flex-col gap-[24px] items-start justify-center px-5 md:px-10 lg:px-[60px] py-[40px] w-full">
+          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between w-full">
+            <p className="font-medium leading-[1.2] text-[#3f425a] text-[16px] lg:text-[18px] tracking-[-0.36px]">
+              Trusted by 70,000+ global companies
+            </p>
+            <div className="flex flex-wrap gap-[16px] items-center">
+              <div className="flex gap-[8px] items-center">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <span key={i} className="relative size-[24px]">
+                    <span className="absolute inset-[9.38%_7.29%_9.37%_7.29%]"><img alt="" className="block size-full" src={asset.starFilled} /></span>
+                  </span>
+                ))}
+              </div>
+              <p className="font-medium leading-[1.2] text-[#939397] text-[20px] tracking-[-0.8px] whitespace-nowrap">4.9 / 5.0</p>
+              <span className="hidden sm:block h-[24px] w-px bg-[#d9d9dd]" />
+              <div className="flex gap-[6px] items-center">
+                <span className="bg-[#cbcbcd] flex items-center justify-center p-[4px] rounded-[90px]">
+                  <img alt="" className="size-[16px]" src={asset.googleLogo} />
+                </span>
+                <span className="bg-[#cbcbcd] flex items-center justify-center p-[4px] rounded-[90px]">
+                  <img alt="" className="size-[16px]" src={asset.frame30} />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-x-[40px] gap-y-[24px] items-center justify-center sm:justify-between py-[20px] w-full">
+            {brandLogos.map((b, i) => (
+              <img
+                key={i}
+                alt=""
+                src={b.src}
+                style={{ width: b.w, height: b.h }}
+                className="opacity-70 transition-opacity duration-300 hover:opacity-100"
+              />
             ))}
           </div>
-        </div>
-      </div>
-      <div className="content-stretch flex flex-col gap-[24px] items-start justify-center px-[60px] py-[40px] relative shrink-0 w-full">
-        <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-          <p className="[word-break:break-word] font-sans font-medium leading-[1.2] not-italic relative shrink-0 text-[#3f425a] text-[18px] tracking-[-0.36px] whitespace-nowrap">
-            Trusted by 70,000+ global companies
-          </p>
-          <div className="content-stretch flex gap-[16px] items-center relative shrink-0">
-            <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
-              {[0, 1, 2, 3, 4].map((i) => (
-                <div key={i} className="relative shrink-0 size-[24px]" data-name="star">
-                  <div className="absolute inset-[9.38%_7.29%_9.37%_7.29%]" data-name="elements">
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgElements1} />
+        </section>
+
+        {/* ========================= FOOTER ========================= */}
+        <footer className="flex flex-col items-start w-full">
+          <div className="bg-[#7a70ba] flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between px-5 md:px-10 lg:px-[60px] py-[30px] w-full">
+            <div className="flex flex-1 flex-col gap-[12px] items-start justify-center text-white">
+              <h2 className="font-ivy font-semibold leading-[1.2] text-[28px] sm:text-[34px] lg:text-[40px]">Ingin Pesan &amp; Berkonsultasi?</h2>
+              <p className="font-normal leading-[1.5] text-[16px] lg:text-[18px]">Chat kami di WhatsApp untuk konsultasi dan penawaran spesial hari ini.</p>
+            </div>
+            <a href="#" className="group bg-[#f2f3f7] flex gap-[12px] items-center justify-center p-[12px] shrink-0 transition-colors hover:bg-white">
+              <span className="font-medium leading-[1.35] text-[#483f83] text-[16px] whitespace-nowrap">Chat Whatsapp</span>
+              <img alt="" className="size-[20px] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" src={asset.whatsapp} />
+            </a>
+          </div>
+          <div className="bg-[#f2f3f7] flex flex-col items-center w-full">
+            <div className="border-[#e5e3f2] border-b flex flex-col md:flex-row md:h-[367px] items-stretch md:items-start justify-between px-5 md:px-10 lg:px-[60px] w-full">
+              <div className="border-[#e5e3f2] md:border-r flex flex-1 flex-col md:h-full items-center justify-between gap-8 py-[40px] md:pr-6">
+                <div className="flex flex-col gap-[26px] items-center text-center w-full">
+                  <div className="flex flex-col gap-[4px] items-center leading-[1.2] text-[#574c9e] w-full">
+                    <p className="font-ivy font-semibold text-[30px] lg:text-[36px]">Sekar Wangi</p>
+                    <p className="font-normal text-[18px] lg:text-[20px]">Florist &amp; Flora</p>
+                  </div>
+                  <p className="capitalize font-normal text-[#7a70ba] text-[14px] leading-[1.6]">
+                    Tempat di mana setiap acara jadi lebih berarti. Kami ada untuk menghidupkan momen yang ingin Anda rayakan.
+                  </p>
+                </div>
+                <div className="flex gap-[20px] items-center justify-center">
+                  {[asset.social1, asset.social2, asset.social3].map((s, i) => (
+                    <a key={i} href="#" className="transition-transform duration-300 hover:-translate-y-0.5">
+                      <img alt="" className="size-[24px]" src={s} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+              {footerCols.map((col, idx) => (
+                <div
+                  key={col.title}
+                  className={`flex flex-1 flex-col gap-[20px] items-center py-[40px] md:px-6 text-center ${
+                    idx < footerCols.length - 1 ? "border-[#e5e3f2] md:border-r" : ""
+                  }`}
+                >
+                  <p className="font-normal leading-[1.35] text-[#9f98cd] text-[16px] w-full">{col.title}</p>
+                  <div className="flex flex-col font-medium gap-[8px] items-center md:items-start leading-[1.6] text-[#7a70ba] text-[14px] w-full">
+                    {col.items.map((item) => (
+                      <a key={item} href="#" className="transition-colors hover:text-[#574c9e]">{item}</a>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
-            <p className="[word-break:break-word] font-sans font-medium leading-[1.2] not-italic relative shrink-0 text-[#939397] text-[20px] tracking-[-0.8px] whitespace-nowrap">
-              4.9 / 5.0
-            </p>
-            <div className="flex flex-row items-center self-stretch">
-              <div className="flex h-full items-center justify-center relative shrink-0 w-0" style={{ containerType: "size" }}>
-                <div className="flex-none rotate-90 w-[100cqh]">
-                  <div className="h-0 relative w-full">
-                    <div className="absolute inset-[-1px_0_0_0]">
-                      <img alt="" className="block max-w-none size-full" src={imgLine3} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="content-stretch flex gap-[6px] items-center relative shrink-0">
-              <div className="bg-[#cbcbcd] content-stretch flex items-center justify-center p-[4px] relative rounded-[90px] shrink-0">
-                <div className="relative shrink-0 size-[16px]" data-name="Google logo">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGoogleLogo} />
-                </div>
-              </div>
-              <div className="bg-[#cbcbcd] content-stretch flex items-center justify-center p-[4px] relative rounded-[90px] shrink-0">
-                <div className="relative shrink-0 size-[16px]">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame30} />
-                </div>
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-between leading-[1.6] px-5 md:px-10 lg:px-[60px] py-[20px] text-[#574c9e] text-[13px] lg:text-[14px] w-full text-center">
+              <p className="font-normal">© 2026 Sekar Wangi. Designed by Aksara Alam. Powered by ✦ Creativity &amp; Nature.</p>
+              <div className="flex font-medium gap-[20px] items-center">
+                <a href="#" className="transition-colors hover:text-[#928ac7]">License</a>
+                <a href="#" className="transition-colors hover:text-[#928ac7]">Privacy</a>
+                <a href="#" className="transition-colors hover:text-[#928ac7]">Terms</a>
               </div>
             </div>
           </div>
-        </div>
-        <div className="bg-[#f3f2f7] content-stretch flex items-center justify-between py-[20px] relative shrink-0 w-full">
-          <div className="h-[28px] relative shrink-0 w-[116.517px]" data-name="Vector">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector1} />
-          </div>
-          <div className="h-[40px] relative shrink-0 w-[127.663px]" data-name="Vector">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector2} />
-          </div>
-          <div className="h-[40px] relative shrink-0 w-[121.514px]" data-name="Vector">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector3} />
-          </div>
-          <div className="h-[42px] relative shrink-0 w-[153.398px]" data-name="Vector">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector4} />
-          </div>
-          <div className="h-[36px] relative shrink-0 w-[183.051px]" data-name="Vector">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector5} />
-          </div>
-          <div className="h-[32px] relative shrink-0 w-[118.519px]" data-name="Group">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup18} />
-          </div>
-          <div className="h-[28px] relative shrink-0 w-[152.124px]" data-name="Group">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup19} />
-          </div>
-        </div>
+        </footer>
       </div>
-      <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Footer">
-        <div className="bg-[#7a70ba] content-stretch flex items-center justify-between px-[60px] py-[30px] relative shrink-0 w-full">
-          <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[12px] items-start justify-center min-w-px not-italic relative text-white">
-            <p className="font-ivy font-semibold leading-[1.2] relative shrink-0 text-[40px] w-full">{`Ingin Pesan & Berkonsultasi?`}</p>
-            <p className="font-sans font-normal leading-[1.5] relative shrink-0 text-[18px] w-full">
-              Chat kami di WhatsApp untuk konsultasi dan penawaran spesial hari ini.
-            </p>
-          </div>
-          <div className="bg-[#f2f3f7] content-stretch flex gap-[12px] items-center justify-center p-[12px] relative shrink-0" data-name="Button - Secondary">
-            <p className="[word-break:break-word] font-sans font-medium leading-[1.35] not-italic relative shrink-0 text-[#483f83] text-[16px] whitespace-nowrap">
-              Chat Whatsapp
-            </p>
-            <div className="relative shrink-0 size-[20px]" data-name="solar:arrow-right-up-linear">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconsaxWhatsapp} />
-            </div>
-          </div>
-        </div>
-        <div className="bg-[#f2f3f7] content-stretch flex flex-col items-center relative shrink-0 w-full">
-          <div className="border-[#e5e3f2] border-b border-solid content-stretch flex h-[367px] items-start justify-between px-[60px] relative shrink-0 w-full">
-            <div className="border-[#e5e3f2] border-r border-solid content-stretch flex flex-[1_0_0] flex-col h-full items-center justify-between min-w-px py-[40px] relative">
-              <div className="[word-break:break-word] content-stretch flex flex-col gap-[26px] items-start not-italic relative shrink-0 text-center w-full">
-                <div className="content-stretch flex flex-col gap-[4px] items-center leading-[1.2] relative shrink-0 text-[#574c9e] w-full">
-                  <p className="font-ivy font-semibold relative shrink-0 text-[36px] w-full">
-                    Sekar Wangi
-                  </p>
-                  <p className="font-sans font-normal relative shrink-0 text-[20px] w-full">{`Florist & Flora`}</p>
-                </div>
-                <div className="capitalize font-sans font-normal leading-[0] relative shrink-0 text-[#7a70ba] text-[14px] w-full whitespace-pre-wrap">
-                  <p className="leading-[1.6] mb-0">Tempat di mana setiap acara</p>
-                  <p className="leading-[1.6] mb-0">
-                    jadi lebih berarti.
-                    <br aria-hidden />
-                    {` Kami ada untuk menghidupkan momen`}
-                  </p>
-                  <p className="leading-[1.6]">yang ingin Anda rayakan.</p>
-                </div>
-              </div>
-              <div className="content-stretch flex gap-[20px] items-center justify-center relative shrink-0">
-                <div className="relative shrink-0 size-[24px]" data-name="Frame">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame3} />
-                </div>
-                <div className="relative shrink-0 size-[24px]" data-name="Frame">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame4} />
-                </div>
-                <div className="relative shrink-0 size-[24px]" data-name="Frame">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame5} />
-                </div>
-              </div>
-            </div>
-            <div className="[word-break:break-word] border-[#e5e3f2] border-r border-solid content-stretch flex flex-[1_0_0] flex-col gap-[20px] h-full items-center min-w-px not-italic py-[40px] relative text-center">
-              <p className="font-sans font-normal leading-[1.35] relative shrink-0 text-[#9f98cd] text-[16px] w-full">
-                Belanja
-              </p>
-              <div className="content-stretch flex flex-col font-sans font-medium gap-[8px] items-start leading-[1.6] relative shrink-0 text-[#7a70ba] text-[14px] w-full">
-                <p className="relative shrink-0 w-full">Bunga</p>
-                <p className="relative shrink-0 w-full">Karangan Bunga Papan</p>
-                <p className="relative shrink-0 w-full">{`Kado & Cakes`}</p>
-              </div>
-            </div>
-            <div className="[word-break:break-word] border-[#e5e3f2] border-r border-solid content-stretch flex flex-[1_0_0] flex-col gap-[20px] h-full items-center min-w-px not-italic py-[40px] relative text-center">
-              <p className="font-sans font-normal leading-[1.35] relative shrink-0 text-[#9f98cd] text-[16px] w-full">
-                Pusat Bantuan
-              </p>
-              <div className="content-stretch flex flex-col font-sans font-medium gap-[8px] items-start leading-[1.6] relative shrink-0 text-[#7a70ba] text-[14px] w-full">
-                <p className="relative shrink-0 w-full">Cara Pemesanan</p>
-                <p className="relative shrink-0 w-full">Frequently Answer Question (FAQ)</p>
-                <p className="relative shrink-0 w-full">{`Pengiriman & Pengembalian`}</p>
-                <p className="relative shrink-0 w-full">Hubungi Kami</p>
-                <p className="relative shrink-0 w-full">Kebijakan Privasi</p>
-                <p className="relative shrink-0 w-full">Akun Saya</p>
-              </div>
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[20px] h-full items-center min-w-px not-italic py-[40px] relative text-center">
-              <p className="font-sans font-normal leading-[1.35] relative shrink-0 text-[#9f98cd] text-[16px] w-full">
-                Lokasi Kami
-              </p>
-              <div className="content-stretch flex flex-col font-sans font-medium gap-[8px] items-start leading-[1.6] relative shrink-0 text-[#7a70ba] text-[14px] w-full">
-                <p className="relative shrink-0 w-full">Jakarta</p>
-                <p className="relative shrink-0 w-full">Tangerang</p>
-                <p className="relative shrink-0 w-full">Bandung</p>
-                <p className="relative shrink-0 w-full">Surabaya</p>
-                <p className="relative shrink-0 w-full">Yogyakarta</p>
-                <p className="relative shrink-0 w-full">Bali</p>
-                <p className="relative shrink-0 w-full">120+ Kota di Indonesia</p>
-              </div>
-            </div>
-          </div>
-          <div className="[word-break:break-word] content-stretch flex items-center justify-between leading-[1.6] not-italic px-[60px] py-[20px] relative shrink-0 text-[#574c9e] text-[14px] w-full whitespace-nowrap">
-            <p className="font-sans font-normal relative shrink-0 text-center">{`© 2026 Sekar Wangi. Designed by Aksara Alam. Powered by ✦ Creativity & Nature.`}</p>
-            <div className="content-stretch flex font-sans font-medium gap-[20px] items-center relative shrink-0">
-              <p className="relative shrink-0">License</p>
-              <p className="relative shrink-0">Privacy</p>
-              <p className="relative shrink-0">Terms</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="absolute content-stretch flex isolate items-center left-[calc(83.33%-17px)] top-[841px]">
-        <div className="bg-[#7a70ba] content-stretch flex items-center mr-[-4px] p-[10px] relative rounded-[90px] shrink-0 z-[2]" data-name="Button">
-          <div className="overflow-clip relative shrink-0 size-[24px]" data-name="iconsax-whatsapp">
-            <div className="absolute contents inset-0" data-name="Clip path group">
-              <div className="absolute inset-[8.33%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-1.667px_-1.667px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup20}")` }} data-name="Group">
-                <div className="absolute inset-[-3.75%]">
-                  <img alt="" className="block max-w-none size-full" src={imgGroup21} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-row items-center self-stretch">
-          <div className="bg-[#7a70ba] content-stretch flex h-full items-center justify-center px-[16px] py-[10px] relative rounded-[90px] shrink-0 z-[1]">
-            <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">
-              Konsultasi sekarang
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
-function StoreCard({ img, name }: { img: string; name: string }) {
-  return (
-    <div className="bg-[#f2f3f7] border border-[#e1e2ea] border-solid content-stretch flex flex-col gap-[14px] items-center relative shrink-0 w-[315px]">
-      <div className="h-[296px] relative shrink-0 w-full">
-        <div aria-hidden className="absolute inset-0 pointer-events-none">
-          <div className="absolute bg-[#f0f1f5] inset-0" />
-          <img alt="" className="absolute max-w-none object-cover size-full" src={img} />
-        </div>
-      </div>
-      <div className="content-stretch flex flex-col gap-[6px] items-start justify-center px-[16px] py-[12px] relative shrink-0 w-full">
-        <div className="content-stretch flex gap-[6px] items-start relative shrink-0 w-full">
-          <div className="overflow-clip relative shrink-0 size-[20px]" data-name="Frame">
-            <div className="absolute contents inset-0" data-name="Clip path group">
-              <div className="absolute inset-[5.21%_6.74%_5.21%_6.53%] mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[-1.306px_-1.042px] mask-size-[20px_20px]" style={{ maskImage: `url("${imgGroup}")` }} data-name="Group">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup17} />
-              </div>
-            </div>
-          </div>
-          <p className="[word-break:break-word] capitalize font-sans font-normal leading-[1.6] not-italic relative shrink-0 text-[#696f96] text-[14px] whitespace-nowrap">
-            Toko Bunga
-          </p>
-        </div>
-        <p className="[word-break:break-word] font-sans font-medium leading-[1.5] not-italic relative shrink-0 text-[#3f425a] text-[18px] whitespace-nowrap">
-          {name}
-        </p>
-      </div>
+      {/* WhatsApp floating button */}
+      <a
+        href="#"
+        className="group fixed z-50 bottom-5 right-5 lg:bottom-8 lg:right-8 flex items-center bg-[#7a70ba] rounded-[90px] shadow-lg transition-transform duration-300 hover:scale-105"
+      >
+        <span className="flex items-center p-[10px]">
+          <MaskIcon size={24} mask={asset.group20} inner="inset-[8.33%] mask-position-[-1.667px_-1.667px] mask-size-[20px_20px]">
+            <div className="absolute inset-[-3.75%]"><img alt="" className="block max-w-none size-full" src={asset.group21} /></div>
+          </MaskIcon>
+        </span>
+        <span className="hidden sm:flex items-center justify-center pr-[16px] py-[10px]">
+          <span className="capitalize leading-[1.6] text-[14px] text-white whitespace-nowrap">Konsultasi sekarang</span>
+        </span>
+      </a>
     </div>
   );
 }
