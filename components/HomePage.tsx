@@ -11,8 +11,22 @@ import Reveal from "@/components/site/Reveal";
 import type { ReactNode } from "react";
 
 /* ------------------------------------------------------------------ */
-/*  Small helpers                                                      */
+/*  Layout helpers                                                     */
 /* ------------------------------------------------------------------ */
+
+/** Centres content to the 1440 design width while the section background
+ *  around it stays full-bleed. */
+function Container({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={`mx-auto w-full max-w-[1440px] ${className}`}>{children}</div>
+  );
+}
 
 function MaskIcon({
   size,
@@ -36,6 +50,10 @@ function MaskIcon({
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  Feature strip                                                      */
+/* ------------------------------------------------------------------ */
 
 const featureItems = [
   {
@@ -87,6 +105,10 @@ function FeatureItem({ title, desc, icon }: (typeof featureItems)[number]) {
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  Hero pieces                                                        */
+/* ------------------------------------------------------------------ */
 
 const statCards = [
   { num: "9.000+", label: "Order/bulan", mask: asset.group8, img: asset.group9, inner: "inset-[8.33%] mask-position-[-2.667px_-2.664px] mask-size-[32px_32px]" },
@@ -142,22 +164,16 @@ function MiniStats() {
   );
 }
 
-const btnArrow = (
-  <span className="flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
-    <span className="-scale-y-100 flex-none rotate-180">
-      <span className="block h-[12px] w-[19.555px]">
-        <img alt="" className="block max-w-none size-full" src={asset.arrowRight} />
-      </span>
-    </span>
-  </span>
-);
-
 function HeroButtons() {
   return (
     <div className="flex flex-wrap gap-[16px] lg:gap-[20px] items-center">
       <button className="group bg-[#544997] flex gap-[12px] h-[52px] items-center justify-center px-[24px] py-[14px] transition-colors hover:bg-[#443a86]">
         <span className="font-medium leading-[1.35] text-[16px] text-white whitespace-nowrap">Kirim Bunga</span>
-        {btnArrow}
+        <span className="flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+          <span className="-scale-y-100 flex-none rotate-180">
+            <span className="block h-[12px] w-[19.555px]"><img alt="" className="block max-w-none size-full" src={asset.arrowRight} /></span>
+          </span>
+        </span>
       </button>
       <button className="group border border-[#483f83] flex gap-[10px] h-[52px] items-center justify-center px-[32px] transition-colors hover:bg-[#483f83]/5">
         <span className="font-medium leading-[1.4] text-[#483f83] text-[16px] whitespace-nowrap">Explore Produk</span>
@@ -197,73 +213,78 @@ function HeroText() {
 export default function HomePage() {
   return (
     <div className="bg-[#f3f2f7] relative w-full overflow-x-hidden">
-      <div className="mx-auto w-full max-w-[1440px] relative">
-        <Navbar />
+      <Navbar />
 
-        {/* ============================ HERO ============================ */}
-        <section className="relative w-full bg-[#f3f2f7]">
-          {/* ---------- Desktop hero (lg+) ---------- */}
-          <div className="hidden lg:block relative h-[832px] w-full overflow-hidden">
-            <img alt="" className="absolute left-[27.2%] top-0 h-[761px] w-[72.8%] max-w-none" src={asset.vector} />
-            <div className="absolute flex h-[185px] items-center justify-center left-0 top-0 w-[330px]">
-              <div className="-scale-y-100 flex-none">
-                <div className="h-[185px] opacity-86 relative w-[330px]">
-                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <img alt="" className="absolute h-[189.94%] left-[-17.42%] max-w-none top-[-78.15%] w-[189.51%]" src={asset.desainFlower} />
-                  </div>
+      {/* ============================ HERO ============================ */}
+      <section className="relative w-full bg-[#f3f2f7] overflow-hidden">
+        {/* ---------- Desktop composition (lg+) ---------- */}
+        <div className="hidden lg:block mx-auto max-w-[1440px] relative h-[832px]">
+          <img alt="" className="absolute left-[27.2%] top-0 h-[761px] w-[72.8%] max-w-none" src={asset.vector} />
+          <div className="absolute flex h-[185px] items-center justify-center left-0 top-0 w-[330px]">
+            <div className="-scale-y-100 flex-none">
+              <div className="h-[185px] opacity-86 relative w-[330px]">
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  <img alt="" className="absolute h-[189.94%] left-[-17.42%] max-w-none top-[-78.15%] w-[189.51%]" src={asset.desainFlower} />
                 </div>
               </div>
             </div>
-            <div className="absolute left-[27.2%] top-0 h-[728px] w-[72.8%]" style={{ backgroundImage: "linear-gradient(225.85579637166063deg, rgba(242, 243, 247, 0.1) 33.91%, rgb(242, 243, 247) 71.597%)" }} />
+          </div>
+          <div className="absolute left-[27.2%] top-0 h-[728px] w-[72.8%]" style={{ backgroundImage: "linear-gradient(225.85579637166063deg, rgba(242, 243, 247, 0.1) 33.91%, rgb(242, 243, 247) 71.597%)" }} />
 
-            <img alt="" className="absolute left-[41.875%] top-[176px] h-[752px] w-[29.375%] object-cover object-top pointer-events-none" src={asset.image17} />
-            <img alt="" className="absolute left-[58.125%] top-[176px] h-[658px] w-[26.4%] object-cover object-top pointer-events-none" src={asset.image15} />
+          <img alt="" className="absolute left-[41.875%] top-[176px] h-[752px] w-[29.375%] object-cover object-top pointer-events-none" src={asset.image17} />
+          <img alt="" className="absolute left-[58.125%] top-[176px] h-[658px] w-[26.4%] object-cover object-top pointer-events-none" src={asset.image15} />
 
-            <div className="absolute flex flex-col gap-[80px] items-start left-[60px] top-[136px] w-[608px] max-w-[42.2%] z-10">
-              <HeroText />
-              <MiniStats />
+          <div className="absolute flex flex-col gap-[80px] items-start left-[60px] top-[136px] w-[608px] max-w-[42.2%] z-10">
+            <HeroText />
+            <MiniStats />
+          </div>
+
+          <div className="absolute flex flex-col gap-[34px] items-start left-[84.5%] top-[106px] z-10">
+            {statCards.map((s) => (
+              <StatCard key={s.label} {...s} />
+            ))}
+          </div>
+        </div>
+
+        {/* ---------- Desktop feature strip (full-bleed) ---------- */}
+        <div className="hidden lg:block absolute left-0 top-[728px] w-full bg-[#dfddee]">
+          <Container className="flex gap-[60px] items-center px-[60px] py-[22px]">
+            {featureItems.map((f) => (
+              <FeatureItem key={f.title} {...f} />
+            ))}
+          </Container>
+        </div>
+
+        {/* ---------- Mobile / tablet hero (<lg) ---------- */}
+        <div className="lg:hidden relative w-full overflow-hidden">
+          <img alt="" className="absolute -right-10 top-0 h-[420px] w-[520px] max-w-none opacity-70 pointer-events-none" src={asset.vector} />
+          <Container className="relative px-5 md:px-10 pt-8 pb-10 flex flex-col gap-8">
+            <HeroText />
+            <div className="relative w-full h-[340px] sm:h-[420px] overflow-hidden rounded-[4px]">
+              <img alt="" className="absolute inset-0 size-full object-cover object-top" src={asset.image17} />
             </div>
-
-            <div className="absolute flex flex-col gap-[34px] items-start left-[84.5%] top-[106px] z-10">
+            <MiniStats />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {statCards.map((s) => (
                 <StatCard key={s.label} {...s} />
               ))}
             </div>
+          </Container>
+        </div>
 
-            <div className="absolute bg-[#dfddee] flex gap-[60px] items-center left-0 px-[60px] py-[22px] top-[728px] w-full">
-              {featureItems.map((f) => (
-                <FeatureItem key={f.title} {...f} />
-              ))}
-            </div>
-          </div>
-
-          {/* ---------- Mobile / tablet hero (<lg) ---------- */}
-          <div className="lg:hidden relative w-full overflow-hidden">
-            <img alt="" className="absolute -right-10 top-0 h-[420px] w-[520px] max-w-none opacity-70 pointer-events-none" src={asset.vector} />
-            <div className="relative px-5 md:px-10 pt-8 pb-10 flex flex-col gap-8">
-              <HeroText />
-              <div className="relative w-full h-[340px] sm:h-[420px] overflow-hidden rounded-[4px]">
-                <img alt="" className="absolute inset-0 size-full object-cover object-top" src={asset.image17} />
-              </div>
-              <MiniStats />
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {statCards.map((s) => (
-                  <StatCard key={s.label} {...s} />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Feature strip (mobile/tablet) */}
-          <div className="lg:hidden bg-[#dfddee] grid grid-cols-1 sm:grid-cols-2 gap-x-[40px] gap-y-[22px] px-5 md:px-10 py-[22px] w-full">
+        {/* ---------- Mobile feature strip (full-bleed) ---------- */}
+        <div className="lg:hidden bg-[#dfddee] w-full">
+          <Container className="grid grid-cols-1 sm:grid-cols-2 gap-x-[40px] gap-y-[22px] px-5 md:px-10 py-[22px]">
             {featureItems.map((f) => (
               <FeatureItem key={f.title} {...f} />
             ))}
-          </div>
-        </section>
+          </Container>
+        </div>
+      </section>
 
-        {/* ======================= FAVORITES ======================= */}
-        <section className="flex flex-col gap-[40px] lg:gap-[60px] items-center px-5 md:px-10 lg:px-[60px] py-[56px] lg:py-[80px] w-full">
+      {/* ======================= FAVORITES ======================= */}
+      <section className="w-full bg-[#f3f2f7]">
+        <Container className="flex flex-col gap-[40px] lg:gap-[60px] items-center px-5 md:px-10 lg:px-[60px] py-[56px] lg:py-[80px]">
           <Reveal className="flex flex-col gap-[16px] items-center w-full">
             <h2 className="font-ivy font-semibold leading-[1.2] text-[#3f425a] text-[30px] sm:text-[36px] lg:text-[40px] text-center">
               Pilihan Favorit Saat Ini
@@ -285,25 +306,25 @@ export default function HomePage() {
           </Reveal>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[20px] w-full">
             {favorites.map((p, i) => (
-              <Reveal key={p.name} delay={i * 70}>
-                <a href="#" className="group block bg-[#f2f3f7] border border-[#e1e2ea] p-[16px] h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
-                  <div className="flex flex-col gap-[14px] h-full items-center">
-                    <div className="w-full overflow-hidden aspect-square lg:aspect-auto lg:flex-1 lg:min-h-px relative">
-                      <img alt={p.name} className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" src={p.img} />
-                    </div>
-                    <div className="flex flex-col gap-[6px] items-start leading-[1.35] text-[#3f425a] w-full">
-                      <p className="font-medium text-[15px] lg:text-[16px]">{p.name}</p>
-                      <p className="font-bold text-[18px] lg:text-[20px] whitespace-nowrap">{p.price}</p>
-                    </div>
+              <Reveal key={p.name} delay={i * 70} className="h-full">
+                <a href="#" className="group flex flex-col gap-[14px] bg-[#f2f3f7] border border-[#e1e2ea] p-[16px] h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
+                  <div className="relative w-full overflow-hidden h-[220px] sm:h-[240px] lg:h-[271px]">
+                    <img alt={p.name} className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" src={p.img} />
+                  </div>
+                  <div className="flex flex-col gap-[6px] items-start leading-[1.35] text-[#3f425a] w-full">
+                    <p className="font-medium text-[15px] lg:text-[16px]">{p.name}</p>
+                    <p className="font-bold text-[18px] lg:text-[20px] whitespace-nowrap">{p.price}</p>
                   </div>
                 </a>
               </Reveal>
             ))}
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* ==================== SPEAK / COLLECTION ==================== */}
-        <section className="bg-[#e9e7f3] relative flex flex-col lg:flex-row lg:h-[400px] items-center justify-between px-5 md:px-10 lg:px-[60px] py-[40px] gap-8 w-full overflow-hidden">
+      {/* ==================== SPEAK / COLLECTION ==================== */}
+      <section className="w-full bg-[#e9e7f3]">
+        <Container className="relative flex flex-col lg:flex-row lg:h-[400px] items-center justify-between px-5 md:px-10 lg:px-[60px] py-[40px] gap-8 overflow-hidden">
           <Reveal className="flex flex-col gap-[20px] lg:h-full items-start justify-center relative z-10 max-w-[520px]">
             <h2 className="font-ivy font-semibold leading-[1.2] text-[#3f425a] text-[28px] sm:text-[34px] lg:text-[40px]">
               Biarkan bunga yang berbicara
@@ -325,26 +346,28 @@ export default function HomePage() {
               <img alt="" className="absolute lg:h-[100.1%] lg:left-[-61.49%] lg:top-[-0.05%] lg:w-[168.8%] inset-0 size-full object-cover" src={asset.chatgpt} />
             </div>
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* ====================== TESTIMONIALS ====================== */}
-        <section className="bg-[#f3f2f7] flex flex-col gap-[40px] lg:gap-[60px] items-start overflow-hidden px-5 md:px-10 lg:px-[40px] py-[56px] lg:py-[80px] w-full">
+      {/* ====================== TESTIMONIALS ====================== */}
+      <section className="w-full bg-[#f3f2f7] overflow-hidden">
+        <Container className="flex flex-col gap-[40px] lg:gap-[60px] items-start px-5 md:px-10 lg:px-[40px] py-[56px] lg:py-[80px]">
           <Reveal className="flex flex-col gap-[10px] lg:gap-[14px] items-center justify-center w-full text-center">
             <p className="font-normal leading-[1.35] text-[#696f96] text-[16px] lg:text-[20px]">Testimonial</p>
             <h2 className="font-ivy font-semibold leading-[1.2] text-[#3f425a] text-[30px] sm:text-[36px] lg:text-[40px]">Cerita Mereka</h2>
           </Reveal>
           <div className="flex flex-col gap-[46px] items-start w-full">
             <div className="flex gap-[24px] items-end justify-center w-full">
-              {/* side thumbnails — desktop only */}
-              <div className="hidden xl:flex gap-[24px] items-start shrink-0">
+              {/* side thumbnails — wide desktop only */}
+              <div className="hidden xl:flex gap-[24px] items-end shrink-0">
                 <img alt="" className="h-[152px] w-[204px] object-cover" src={asset.image6} />
                 <img alt="" className="h-[152px] w-[204px] object-cover" src={asset.image13} />
               </div>
               <Reveal className="flex flex-col md:flex-row gap-[24px] md:gap-[40px] items-center w-full xl:w-[800px]">
-                <div className="w-full md:w-[296px] shrink-0 overflow-hidden self-stretch">
-                  <img alt="" className="h-[280px] md:h-full w-full object-cover" src={asset.image8} />
+                <div className="relative w-full md:w-[296px] shrink-0 overflow-hidden h-[300px] md:h-[380px]">
+                  <img alt="" className="absolute inset-0 size-full object-cover" src={asset.image8} />
                 </div>
-                <div className="flex flex-1 flex-col md:h-[351px] items-start justify-between min-w-px gap-6">
+                <div className="flex flex-1 flex-col items-start justify-between min-w-px gap-6 md:h-[380px]">
                   <p className="font-normal leading-[1.5] text-[#3c3e3e] text-[20px] sm:text-[24px] lg:text-[28px] tracking-[-0.84px]">
                     Bunganya bagus banget, pas sampai masih fresh dan penataannya juga rapi. Yang paling suka itu warnanya ternyata lebih cantik dari yang saya bayangkan.
                   </p>
@@ -354,9 +377,9 @@ export default function HomePage() {
                   </div>
                 </div>
               </Reveal>
-              <div className="hidden xl:flex gap-[24px] items-center shrink-0">
+              <div className="hidden xl:flex gap-[24px] items-end shrink-0">
                 <img alt="" className="h-[152px] w-[204px] object-cover" src={asset.image7} />
-                <img alt="" className="h-[152px] w-[204px] object-cover self-stretch" src={asset.image11} />
+                <img alt="" className="h-[380px] w-[204px] object-cover" src={asset.image11} />
               </div>
             </div>
             {/* nav */}
@@ -385,10 +408,12 @@ export default function HomePage() {
               </button>
             </div>
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* ======================== STORES ======================== */}
-        <section className="flex flex-col gap-[40px] lg:gap-[60px] items-start px-5 md:px-10 lg:px-[60px] py-[56px] lg:py-[100px] w-full">
+      {/* ======================== STORES ======================== */}
+      <section className="w-full bg-[#f3f2f7]">
+        <Container className="flex flex-col gap-[40px] lg:gap-[60px] items-start px-5 md:px-10 lg:px-[60px] py-[56px] lg:py-[100px]">
           <Reveal className="flex flex-col sm:flex-row gap-[16px] sm:items-center justify-center w-full">
             <div className="flex flex-1 flex-col gap-[4px] items-start min-w-px">
               <p className="font-medium leading-[1.35] text-[#696f96] text-[16px] lg:text-[20px]">Toko Kami</p>
@@ -405,8 +430,8 @@ export default function HomePage() {
           </Reveal>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[20px] w-full">
             {stores.map((s, i) => (
-              <Reveal key={s.name} delay={(i % 4) * 70}>
-                <a href="#" className="group block bg-[#f2f3f7] border border-[#e1e2ea] h-full overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
+              <Reveal key={s.name} delay={(i % 4) * 70} className="h-full">
+                <a href="#" className="group flex flex-col bg-[#f2f3f7] border border-[#e1e2ea] h-full overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
                   <div className="h-[200px] lg:h-[296px] relative w-full overflow-hidden">
                     <div className="absolute bg-[#f0f1f5] inset-0" />
                     <img alt={s.name} className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" src={s.img} />
@@ -424,10 +449,12 @@ export default function HomePage() {
               </Reveal>
             ))}
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* ======================= TRUSTED BY ======================= */}
-        <section className="flex flex-col gap-[24px] items-start justify-center px-5 md:px-10 lg:px-[60px] py-[40px] w-full">
+      {/* ======================= TRUSTED BY ======================= */}
+      <section className="w-full bg-[#f3f2f7]">
+        <Container className="flex flex-col gap-[24px] items-start justify-center px-5 md:px-10 lg:px-[60px] py-[40px]">
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between w-full">
             <p className="font-medium leading-[1.2] text-[#3f425a] text-[16px] lg:text-[18px] tracking-[-0.36px]">
               Trusted by 70,000+ global companies
@@ -463,11 +490,13 @@ export default function HomePage() {
               />
             ))}
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* ========================= FOOTER ========================= */}
-        <footer className="flex flex-col items-start w-full">
-          <div className="bg-[#7a70ba] flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between px-5 md:px-10 lg:px-[60px] py-[30px] w-full">
+      {/* ========================= FOOTER ========================= */}
+      <footer className="w-full">
+        <div className="bg-[#7a70ba] w-full">
+          <Container className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between px-5 md:px-10 lg:px-[60px] py-[30px]">
             <div className="flex flex-1 flex-col gap-[12px] items-start justify-center text-white">
               <h2 className="font-ivy font-semibold leading-[1.2] text-[28px] sm:text-[34px] lg:text-[40px]">Ingin Pesan &amp; Berkonsultasi?</h2>
               <p className="font-normal leading-[1.5] text-[16px] lg:text-[18px]">Chat kami di WhatsApp untuk konsultasi dan penawaran spesial hari ini.</p>
@@ -476,9 +505,11 @@ export default function HomePage() {
               <span className="font-medium leading-[1.35] text-[#483f83] text-[16px] whitespace-nowrap">Chat Whatsapp</span>
               <img alt="" className="size-[20px] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" src={asset.whatsapp} />
             </a>
-          </div>
-          <div className="bg-[#f2f3f7] flex flex-col items-center w-full">
-            <div className="border-[#e5e3f2] border-b flex flex-col md:flex-row md:h-[367px] items-stretch md:items-start justify-between px-5 md:px-10 lg:px-[60px] w-full">
+          </Container>
+        </div>
+        <div className="bg-[#f2f3f7] w-full">
+          <Container>
+            <div className="border-[#e5e3f2] border-b flex flex-col md:flex-row md:h-[367px] items-stretch md:items-start justify-between px-5 md:px-10 lg:px-[60px]">
               <div className="border-[#e5e3f2] md:border-r flex flex-1 flex-col md:h-full items-center justify-between gap-8 py-[40px] md:pr-6">
                 <div className="flex flex-col gap-[26px] items-center text-center w-full">
                   <div className="flex flex-col gap-[4px] items-center leading-[1.2] text-[#574c9e] w-full">
@@ -513,7 +544,7 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 items-center justify-between leading-[1.6] px-5 md:px-10 lg:px-[60px] py-[20px] text-[#574c9e] text-[13px] lg:text-[14px] w-full text-center">
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-between leading-[1.6] px-5 md:px-10 lg:px-[60px] py-[20px] text-[#574c9e] text-[13px] lg:text-[14px] text-center">
               <p className="font-normal">© 2026 Sekar Wangi. Designed by Aksara Alam. Powered by ✦ Creativity &amp; Nature.</p>
               <div className="flex font-medium gap-[20px] items-center">
                 <a href="#" className="transition-colors hover:text-[#928ac7]">License</a>
@@ -521,9 +552,9 @@ export default function HomePage() {
                 <a href="#" className="transition-colors hover:text-[#928ac7]">Terms</a>
               </div>
             </div>
-          </div>
-        </footer>
-      </div>
+          </Container>
+        </div>
+      </footer>
 
       {/* WhatsApp floating button */}
       <a

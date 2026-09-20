@@ -35,17 +35,26 @@
 }
 
 /* Ivy Mode (drop the licensed file into /public/fonts — see README there).
-   Falls back to Instrument Serif until the real file is provided. */
+   Accepts woff2 / woff / otf / ttf; falls back to Instrument Serif until a
+   real file is provided. */
 @font-face {
   font-family: "Ivy Mode";
-  src: url("/fonts/IvyMode-SemiBold.woff2") format("woff2");
+  src:
+    url("/fonts/IvyMode-SemiBold.woff2") format("woff2"),
+    url("/fonts/IvyMode-SemiBold.woff") format("woff"),
+    url("/fonts/IvyMode-SemiBold.otf") format("opentype"),
+    url("/fonts/IvyMode-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Ivy Mode";
-  src: url("/fonts/IvyMode-Regular.woff2") format("woff2");
+  src:
+    url("/fonts/IvyMode-Regular.woff2") format("woff2"),
+    url("/fonts/IvyMode-Regular.woff") format("woff"),
+    url("/fonts/IvyMode-Regular.otf") format("opentype"),
+    url("/fonts/IvyMode-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
