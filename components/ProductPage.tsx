@@ -78,7 +78,7 @@ function Hero() {
 
 export default function ProductPage() {
   return (
-    <div className="bg-[#f3f2f7] relative w-full overflow-x-hidden">
+    <div className="bg-[#f3f2f7] relative w-full overflow-x-clip">
       <Navbar />
       <Hero />
       <FeatureStrip />

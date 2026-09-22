@@ -271,8 +271,8 @@ export default function ProductCatalog() {
             <IconChevronDown className={`size-[20px] transition-transform ${mobileFilter ? "rotate-180" : ""}`} />
           </button>
 
-          {/* sidebar */}
-          <aside className="w-full lg:w-[320px] shrink-0">
+          {/* sidebar (sticky on desktop, below the sticky navbar) */}
+          <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-[196px] lg:self-start lg:max-h-[calc(100vh-212px)] lg:overflow-y-auto filter-scroll">
             <div className={`${mobileFilter ? "block" : "hidden"} lg:block`}>{sidebar}</div>
           </aside>
 
