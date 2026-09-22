@@ -17,6 +17,31 @@ export const stats = [
   { label: "Today's Revenue", value: "120", delta: "+20%", up: true, spark: sparkC, icon: "users" as const },
 ];
 
+export const statsProducts = [
+  { label: "Total Stok", value: "5.480", delta: "+20%", up: true, spark: sparkA, icon: "trend" as const },
+  { label: "Bouquets Sold", value: "1.200", delta: "-34%", up: false, spark: sparkB, icon: "bouquet" as const },
+  { label: "Today's Revenue", value: "120", delta: "+20%", up: true, spark: sparkC, icon: "users" as const },
+];
+
+const productNames = [
+  "Lavender Romance",
+  "Purple Garden",
+  "Violet Classic",
+  "Rose Garden Elegance",
+  "Velvet Orchid Bliss",
+  "Luxe Lavender Charm",
+];
+
+export const productRows = Array.from({ length: 12 }).map((_, i) => ({
+  img: [productAsset.p4, productAsset.p8, productAsset.p3, productAsset.p1, productAsset.p9, productAsset.p6][i % 6],
+  name: i === 0 ? "Lavender Romance" : productNames[i % productNames.length],
+  price: "Rp 230.000",
+  category: "Bunga Buket",
+  size: "50 CM",
+  stock: "430 PCS",
+  updated: "12 June 2025",
+}));
+
 export const recentOrders = [
   { id: "#ORD-213", img: productAsset.p4, name: "Lavender Romance", date: "12 June 2025", qty: "02 PCS" },
   { id: "#ORD-213", img: productAsset.p8, name: "Purple Garden", date: "12 June 2025", qty: "02 PCS" },

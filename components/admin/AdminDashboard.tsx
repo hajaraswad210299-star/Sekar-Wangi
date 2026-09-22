@@ -1,36 +1,14 @@
 import { stats, recentOrders } from "@/components/admin/adminData";
 import StatCard from "@/components/admin/StatCard";
 import RevenueChart from "@/components/admin/RevenueChart";
-import { IconMoon, IconBell, IconKebab } from "@/components/admin/icons";
-import { IconGrid, IconCalendar, IconChevronDown, IconArrowRight } from "@/components/site/icons";
-
-function IconBtn({ children, label }: { children: React.ReactNode; label: string }) {
-  return (
-    <button
-      aria-label={label}
-      className="flex items-center justify-center size-[40px] rounded-[10px] border border-[#e1e2ea] text-[#3f425a] transition-all duration-200 hover:bg-[#f2f3f7] hover:text-[#544997]"
-    >
-      {children}
-    </button>
-  );
-}
+import AdminTopbar from "@/components/admin/AdminTopbar";
+import { IconKebab } from "@/components/admin/icons";
+import { IconCalendar, IconChevronDown, IconArrowRight } from "@/components/site/icons";
 
 export default function AdminDashboard() {
   return (
     <main className="bg-white lg:rounded-[20px] min-h-screen lg:min-h-[calc(100vh-16px)] overflow-hidden">
-      {/* topbar */}
-      <div className="flex items-center justify-between px-[24px] lg:px-[32px] h-[68px] border-b border-[#eef0f3]">
-        <div className="flex items-center gap-[8px] text-[15px]">
-          <IconGrid className="size-[18px] text-[#544997]" />
-          <span className="text-[#544997] font-medium">Overview</span>
-          <span className="text-[#c3c5d5]">›</span>
-          <span className="text-[#3f425a]">Dashboard</span>
-        </div>
-        <div className="flex items-center gap-[10px]">
-          <IconBtn label="Mode gelap"><IconMoon className="size-[19px]" /></IconBtn>
-          <IconBtn label="Notifikasi"><IconBell className="size-[19px]" /></IconBtn>
-        </div>
-      </div>
+      <AdminTopbar page="Dashboard" />
 
       <div className="px-[24px] lg:px-[32px] py-[28px] flex flex-col gap-[24px]">
         {/* greeting */}
