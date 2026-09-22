@@ -280,7 +280,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[20px] w-full">
             {favorites.map((p, i) => (
               <Reveal key={p.name} delay={i * 70} className="h-full">
-                <a href="#" className="group flex flex-col gap-[14px] bg-[#f2f3f7] border border-[#e1e2ea] p-[16px] h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
+                <a href="/product/detail" className="group flex flex-col gap-[14px] bg-[#f2f3f7] border border-[#e1e2ea] p-[16px] h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
                   <div className="relative w-full overflow-hidden h-[220px] sm:h-[240px] lg:h-[271px]">
                     <img alt={p.name} className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" src={p.img} />
                   </div>
@@ -305,7 +305,7 @@ export default function HomePage() {
             <p className="font-normal leading-[1.5] text-[#696f96] text-[15px] sm:text-[16px]">
               Temukan rangkaian bunga segar yang dirancang untuk menyampaikan perasaan Anda.
             </p>
-            <a href="#" className="group flex gap-[12px] items-center">
+            <a href="/product" className="group flex gap-[12px] items-center">
               <span className="font-medium leading-[1.35] text-[#483f83] text-[16px] whitespace-nowrap">Lihat koleksi</span>
               <span className="flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
                 <span className="-scale-y-100 flex-none rotate-180">
@@ -411,7 +411,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[20px] w-full">
             {stores.map((s, i) => (
               <Reveal key={s.name} delay={(i % 4) * 70} className="h-full">
-                <a href="#" className="group flex flex-col bg-[#f2f3f7] border border-[#e1e2ea] h-full overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
+                <a href="/product" className="group flex flex-col bg-[#f2f3f7] border border-[#e1e2ea] h-full overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
                   <div className="h-[200px] lg:h-[296px] relative w-full overflow-hidden">
                     <div className="absolute bg-[#f0f1f5] inset-0" />
                     <img alt={s.name} className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" src={s.img} />
