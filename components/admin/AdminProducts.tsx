@@ -20,13 +20,13 @@ export default function AdminProducts() {
               Atur ketersediaan bunga, katalog seasonal bundle, publikasi, dan pesanan.
             </p>
           </div>
-          <button className="group bg-[#544997] flex items-center justify-center gap-[10px] h-[48px] px-[22px] rounded-[10px] shrink-0 transition-colors hover:bg-[#443a86]">
+          <a href="/admin/products/new" className="group bg-[#544997] flex items-center justify-center gap-[10px] h-[48px] px-[22px] rounded-[10px] shrink-0 transition-colors hover:bg-[#443a86]">
             <span className="font-medium text-white text-[15px] whitespace-nowrap">Tambah Produk</span>
             <span className="relative flex items-center justify-center size-[18px] text-white transition-transform duration-300 group-hover:rotate-90">
               <span className="absolute w-[14px] h-[2px] bg-white rounded-full" />
               <span className="absolute h-[14px] w-[2px] bg-white rounded-full" />
             </span>
-          </button>
+          </a>
         </div>
 
         {/* stat cards */}

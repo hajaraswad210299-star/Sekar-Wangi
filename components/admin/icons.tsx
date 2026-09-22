@@ -64,6 +64,53 @@ export function IconBell({ className, ...p }: P) {
   );
 }
 
+export function IconUpload({ className, ...p }: P) {
+  return (
+    <svg className={className} {...base} {...p}>
+      <path d="M7 18a4 4 0 0 1-.5-8 5.5 5.5 0 0 1 10.7-1.2A4.2 4.2 0 0 1 17.5 18" />
+      <path d="M12 12v6M9.5 14 12 11.5 14.5 14" />
+    </svg>
+  );
+}
+
+export function IconImage({ className, ...p }: P) {
+  return (
+    <svg className={className} {...base} {...p}>
+      <rect x="3.5" y="4.5" width="17" height="15" rx="3" />
+      <circle cx="8.5" cy="9.5" r="1.5" />
+      <path d="m4.5 17 4.5-4.5 3.5 3.5 3-3 4 4" />
+    </svg>
+  );
+}
+
+export function IconSave({ className, ...p }: P) {
+  return (
+    <svg className={className} {...base} {...p}>
+      <path d="M5.5 4.5h11L20 8v10.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5.5a1 1 0 0 1 1-1Z" />
+      <path d="M8 4.5v4h6v-4M8 19.5v-5h8v5" />
+    </svg>
+  );
+}
+
+export function IconGrip({ className, ...p }: P) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...p}>
+      <circle cx="9" cy="6" r="1.4" /><circle cx="15" cy="6" r="1.4" />
+      <circle cx="9" cy="12" r="1.4" /><circle cx="15" cy="12" r="1.4" />
+      <circle cx="9" cy="18" r="1.4" /><circle cx="15" cy="18" r="1.4" />
+    </svg>
+  );
+}
+
+export function IconDoc({ className, ...p }: P) {
+  return (
+    <svg className={className} {...base} {...p}>
+      <path d="M6 3.5h7l5 5V20a.5.5 0 0 1-.5.5h-11A.5.5 0 0 1 6 20V3.5Z" />
+      <path d="M13 3.5V9h5M9 13h6M9 16h4" />
+    </svg>
+  );
+}
+
 export function IconKebab({ className, ...p }: P) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...p}>
