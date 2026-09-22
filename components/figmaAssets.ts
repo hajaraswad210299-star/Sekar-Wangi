@@ -112,6 +112,117 @@ export const brandLogos = [
   { src: asset.brand7, w: 152.124, h: 28 },
 ] as const;
 
+/* ------------------------------------------------------------------ */
+/*  Product page                                                       */
+/* ------------------------------------------------------------------ */
+
+export const productAsset = {
+  hero: "/figma/product/hero.png",
+  p1: "/figma/product/p1.png",
+  p2: "/figma/product/p2.png",
+  p3: "/figma/product/p3.png",
+  p4: "/figma/product/p4.png",
+  p5: "/figma/product/p5.png",
+  p6: "/figma/product/p6.png",
+  p7: "/figma/product/p7.png",
+  p8: "/figma/product/p8.png",
+  p9: "/figma/product/p9.png",
+  blog1: "/figma/product/blog1.png",
+  blog2: "/figma/product/blog2.png",
+  blog3: "/figma/product/blog3.png",
+  blog4: "/figma/product/blog4.png",
+} as const;
+
+export type Product = { img: string; name: string; price: string };
+
+export const productTabs = [
+  "Bunga",
+  "Karangan Papan Bunga",
+  "kado dan Cakes",
+] as const;
+
+export const productsByTab: Record<string, Product[]> = {
+  Bunga: [
+    { img: productAsset.p1, name: "Rose Garden Elegance", price: "Rp 85.000" },
+    { img: productAsset.p2, name: "Rose Garden Elegance", price: "Rp 70.000" },
+    { img: productAsset.p3, name: "Rose Garden Elegance", price: "Rp 77.500" },
+    { img: productAsset.p4, name: "Luxe Lavender Charm", price: "Rp 90.000" },
+    { img: productAsset.p5, name: "Luxe Lavender Charm", price: "Rp 75.000" },
+    { img: productAsset.p6, name: "Luxe Lavender Charm", price: "Rp 82.500" },
+    { img: productAsset.p7, name: "Velvet Orchid Bliss", price: "Rp 78.000" },
+    { img: productAsset.p8, name: "Velvet Orchid Bliss", price: "Rp 80.000" },
+    { img: productAsset.p9, name: "Velvet Orchid Bliss", price: "Rp 87.500" },
+  ],
+  "Karangan Papan Bunga": [
+    { img: productAsset.p8, name: "Papan Duka Cita", price: "Rp 350.000" },
+    { img: productAsset.p2, name: "Papan Selamat Sukses", price: "Rp 425.000" },
+    { img: productAsset.p6, name: "Papan Pernikahan", price: "Rp 500.000" },
+    { img: productAsset.p9, name: "Papan Grand Opening", price: "Rp 475.000" },
+    { img: productAsset.p3, name: "Papan Wisuda", price: "Rp 300.000" },
+    { img: productAsset.p5, name: "Papan Ucapan Selamat", price: "Rp 390.000" },
+  ],
+  "kado dan Cakes": [
+    { img: productAsset.p6, name: "Bloom & Cake Box", price: "Rp 265.000" },
+    { img: productAsset.p1, name: "Sweet Surprise Hamper", price: "Rp 320.000" },
+    { img: productAsset.p4, name: "Birthday Cake Bloom", price: "Rp 285.000" },
+    { img: productAsset.p7, name: "Gift & Flower Set", price: "Rp 240.000" },
+  ],
+};
+
+export const filterKategori = [
+  "Buket Fresh Flower",
+  "Buket Artificial",
+  "Rangkaian Bunga Meja",
+  "Buket Balon",
+  "Buket Bunga Box",
+  "Buket Rustic",
+  "Bunga Papan",
+] as const;
+
+export const filterRegions = [
+  {
+    group: "Jabodetabek",
+    items: ["Jakarta Pusat", "Bogor", "Depok", "Tangerang", "Bekasi"],
+  },
+  {
+    group: "Jawa Barat",
+    items: ["Bandung", "Cimahi", "Cirebon", "Sukabumi"],
+  },
+] as const;
+
+export const journalPosts = [
+  {
+    img: productAsset.blog1,
+    tag: "Tips & Inspiration",
+    title: "Cara Memilih Bunga Tepat",
+    desc: "Kenali makna, warna, dan karakter bunga agar rangkaian yang dipilih benar-benar mewakili perasaanmu.",
+  },
+  {
+    img: productAsset.blog2,
+    tag: "Flower Guide",
+    title: "Makna Di Balik Warna Bunga",
+    desc: "Setiap warna membawa cerita berbeda. Dari merah yang penuh gairah hingga ungu yang anggun.",
+  },
+  {
+    img: productAsset.blog3,
+    tag: "Buket & Hadiah",
+    title: "Bunga Untuk Setiap Momen",
+    desc: "Ulang tahun, anniversary, ucapan terima kasih, atau sekadar ingin membuat seseorang tersenyum.",
+  },
+  {
+    img: productAsset.blog4,
+    tag: "Tips & Inspirasi",
+    title: "Buket Cantik Tanpa Berlebihan",
+    desc: "Komposisi yang tepat bukan soal seberapa banyak bunga, tetapi bagaimana menyusunnya dengan rasa.",
+  },
+  {
+    img: productAsset.blog1,
+    tag: "Flower Guide",
+    title: "Merawat Bunga Agar Tahan Lama",
+    desc: "Beberapa langkah sederhana membuat rangkaian bunga tetap segar berhari-hari lebih lama.",
+  },
+] as const;
+
 export const footerCols = [
   {
     title: "Belanja",

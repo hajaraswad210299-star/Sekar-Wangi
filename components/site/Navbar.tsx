@@ -1,37 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { asset, navLinks } from "@/components/figmaAssets";
-
-function MaskIcon({
-  mask,
-  img,
-  size = 24,
-  inner,
-}: {
-  mask: string;
-  img: string;
-  size?: number;
-  inner: string;
-}) {
-  return (
-    <div className="overflow-clip relative" style={{ width: size, height: size }}>
-      <div
-        className={`absolute mask-alpha mask-intersect mask-no-repeat ${inner}`}
-        style={{ maskImage: `url("${mask}")` }}
-      >
-        <div className="absolute inset-[-4.5%_-5.2%]">
-          <img alt="" className="block max-w-none size-full" src={img} />
-        </div>
-      </div>
-    </div>
-  );
-}
+import { IconUser, IconBag, IconGrid, IconHeadset } from "@/components/site/icons";
 
 const bar = "mx-auto w-full max-w-[1440px] px-5 md:px-10 lg:px-[60px]";
 
+const linkHref: Record<string, string> = {
+  Home: "/",
+  Product: "/product",
+  Location: "#",
+  Moment: "#",
+};
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isActive = (link: string) => linkHref[link] === pathname;
 
   return (
     <header className="sticky top-0 z-40 w-full">
@@ -66,7 +52,7 @@ export default function Navbar() {
       {/* Main bar */}
       <div className="bg-white w-full">
         <div className={`${bar} flex items-center justify-between gap-4 py-[14px] lg:py-[18px]`}>
-          <a href="#" className="flex gap-[12px] items-center shrink-0 group">
+          <a href="/" className="flex gap-[12px] items-center shrink-0 group">
             <img alt="Sekar Wangi" className="size-[40px] lg:size-[44px] transition-transform duration-300 group-hover:rotate-6" src={asset.logo} />
             <span className="flex flex-col gap-[2px] justify-center text-[#574c9e]">
               <span className="font-ivy font-semibold leading-[1.2] text-[22px] lg:text-[26px] tracking-[0.26px] whitespace-nowrap">
@@ -89,10 +75,10 @@ export default function Navbar() {
 
           <div className="flex gap-[4px] items-center shrink-0">
             <button aria-label="Akun" className="flex items-center justify-center p-[6px] rounded-full transition-colors hover:bg-[#f2f3f7]">
-              <MaskIcon mask={asset.group} img={asset.group2} inner="inset-[8.33%_14.21%] mask-position-[-2.842px_-1.667px] mask-size-[20px_20px]" />
+              <IconUser className="size-[22px] text-[#3f425a]" />
             </button>
             <button aria-label="Keranjang" className="flex items-center justify-center p-[6px] rounded-full transition-colors hover:bg-[#f2f3f7]">
-              <MaskIcon mask={asset.group} img={asset.group1} inner="inset-[8.37%_13.54%_8.33%_13.54%] mask-position-[-2.708px_-1.673px] mask-size-[20px_20px]" />
+              <IconBag className="size-[22px] text-[#3f425a]" />
             </button>
             {/* Hamburger */}
             <button
@@ -114,19 +100,19 @@ export default function Navbar() {
         <div className={`${bar} flex items-center justify-between pt-[6px]`}>
           <div className="flex gap-[12px] items-center">
             <button className="flex gap-[12px] items-center p-[10px] group">
-              <MaskIcon mask={asset.group} img={asset.group4} size={20} inner="inset-[18.75%_12.5%] mask-position-[-2.5px_-3.75px] mask-size-[20px_20px]" />
+              <IconGrid className="size-[20px] text-[#3f425a]" />
               <span className="capitalize leading-[1.6] text-[#3f425a] text-[14px] whitespace-nowrap transition-colors group-hover:text-[#928ac7]">
                 Categories
               </span>
             </button>
             <span className="h-[26px] w-px bg-[#e1e2ea]" />
             <nav className="flex gap-[12px] items-center">
-              {navLinks.map((link, i) => (
+              {navLinks.map((link) => (
                 <a
                   key={link}
-                  href="#"
+                  href={linkHref[link]}
                   className={`flex gap-[8px] items-center py-[10px] border-b-2 leading-[1.6] text-[14px] whitespace-nowrap transition-colors ${
-                    i === 0
+                    isActive(link)
                       ? "border-[#928ac7] text-[#928ac7] font-medium"
                       : "border-transparent text-[#3f425a] capitalize hover:text-[#928ac7] hover:border-[#c9c4e6]"
                   }`}
@@ -137,7 +123,7 @@ export default function Navbar() {
             </nav>
           </div>
           <div className="flex gap-[6px] items-center">
-            <MaskIcon mask={asset.group5} img={asset.group6} size={16} inner="inset-[8.33%] mask-position-[-1.333px_-1.333px] mask-size-[16px_16px]" />
+            <IconHeadset className="size-[16px] text-[#7a70ba]" />
             <span className="capitalize leading-[1.6] text-[#7a70ba] text-[14px] whitespace-nowrap">
               Chat Support: (+62) 856 4581 8745 321
             </span>
@@ -160,13 +146,13 @@ export default function Navbar() {
             <img alt="" className="size-[20px] shrink-0" src={asset.searchIcon} />
           </label>
           <nav className="flex flex-col">
-            {navLinks.map((link, i) => (
+            {navLinks.map((link) => (
               <a
                 key={link}
-                href="#"
+                href={linkHref[link]}
                 onClick={() => setOpen(false)}
                 className={`py-3 border-b border-[#f0eef8] text-[15px] transition-colors ${
-                  i === 0 ? "text-[#928ac7] font-medium" : "text-[#3f425a] hover:text-[#928ac7]"
+                  isActive(link) ? "text-[#928ac7] font-medium" : "text-[#3f425a] hover:text-[#928ac7]"
                 }`}
               >
                 {link}
@@ -177,7 +163,7 @@ export default function Navbar() {
             </a>
           </nav>
           <div className="flex gap-[6px] items-center pt-1">
-            <MaskIcon mask={asset.group5} img={asset.group6} size={16} inner="inset-[8.33%] mask-position-[-1.333px_-1.333px] mask-size-[16px_16px]" />
+            <IconHeadset className="size-[16px] text-[#7a70ba]" />
             <span className="text-[#7a70ba] text-[13px]">
               Chat Support: (+62) 856 4581 8745 321
             </span>
