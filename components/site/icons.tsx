@@ -218,6 +218,14 @@ export function IconChevronDown({ className, ...p }: P) {
   );
 }
 
+export function IconX({ className, ...p }: P) {
+  return (
+    <svg className={className} {...base} {...p}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  );
+}
+
 export function IconTag({ className, ...p }: P) {
   return (
     <svg className={className} {...base} {...p}>

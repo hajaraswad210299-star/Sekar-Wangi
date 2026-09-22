@@ -4,12 +4,14 @@ import { useState } from "react";
 import { detailProduct } from "@/components/figmaAssets";
 import { IconStar, IconBag, IconTag, IconHome } from "@/components/site/icons";
 import Reveal from "@/components/site/Reveal";
+import CheckoutModal from "@/components/site/CheckoutModal";
 
 export default function ProductDetail() {
   const p = detailProduct;
   const [active, setActive] = useState(0);
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState(0);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   return (
     <section className="w-full bg-[#f3f2f7]">
@@ -132,7 +134,10 @@ export default function ProductDetail() {
 
             {/* actions */}
             <div className="flex flex-col gap-[12px] pt-[4px]">
-              <button className="group bg-[#544997] flex items-center justify-center h-[54px] px-[24px] transition-colors hover:bg-[#443a86]">
+              <button
+                onClick={() => setCheckoutOpen(true)}
+                className="group bg-[#544997] flex items-center justify-center h-[54px] px-[24px] transition-colors hover:bg-[#443a86]"
+              >
                 <span className="font-medium text-white text-[16px]">Checkout Sekarang</span>
               </button>
               <button className="group border border-[#544997] flex items-center justify-center gap-[10px] h-[54px] px-[24px] transition-colors hover:bg-[#544997]/5">
@@ -172,6 +177,13 @@ export default function ProductDetail() {
           </Reveal>
         </div>
       </div>
+
+      <CheckoutModal
+        open={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        product={{ name: p.name, price: p.price, image: p.gallery[active] }}
+        qty={qty}
+      />
     </section>
   );
 }
