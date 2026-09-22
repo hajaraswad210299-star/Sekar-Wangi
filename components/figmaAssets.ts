@@ -169,6 +169,67 @@ export const productsByTab: Record<string, Product[]> = {
   ],
 };
 
+export const detailAsset = {
+  main: "/figma/product/detail-main.png",
+  t1: "/figma/product/detail-t1.png",
+  t2: "/figma/product/detail-t2.png",
+  t3: "/figma/product/detail-t3.png",
+  t4: "/figma/product/detail-t4.png",
+  t5: "/figma/product/detail-t5.png",
+} as const;
+
+export const detailProduct = {
+  name: "Velvet Orchid Rose",
+  badge: "Terlaris",
+  category: "Bouquet Bunga",
+  size: "Ukuran: 50 cm",
+  rating: 4,
+  ratingValue: "4.8",
+  price: "Rp 240.000",
+  installment: "Atau 4 pembayaran mudah sebesar Rp30.000 dengan",
+  sold: "89 orang telah membeli produk ini",
+  stock: 27,
+  gallery: [
+    detailAsset.main,
+    productAsset.p1,
+    productAsset.p7,
+    productAsset.p3,
+    productAsset.p9,
+  ],
+  tabs: [
+    {
+      label: "Detail Buket",
+      body: [
+        "Rangkaian bunga bernuansa lavender yang memadukan bunga-bunga segar dalam komposisi yang lembut dan elegan. Perpaduan warna ungu, putih, dan sentuhan hijau membuat buket ini terasa segar tanpa terlihat berlebihan.",
+        "Dibuat dengan susunan bunga yang natural dan wrapping premium, Lavender Garden Bouquet cocok untuk hadiah ulang tahun, ucapan selamat, anniversary, maupun sekadar memberikan kejutan kecil untuk seseorang yang berarti.",
+        "Setiap buket dirangkai berdasarkan ketersediaan bunga terbaik pada hari pemesanan, sehingga bentuk dan detail rangkaian dapat sedikit berbeda dari foto. Namun, karakter warna, kualitas, dan kesan keseluruhannya tetap kami jaga.",
+      ],
+    },
+    {
+      label: "Perawatan",
+      body: [
+        "Segera potong ujung batang sekitar 2 cm secara diagonal dan letakkan buket dalam vas berisi air bersih setibanya pesanan.",
+        "Ganti air setiap 1–2 hari, jauhkan dari sinar matahari langsung, buah matang, dan hembusan AC agar bunga tetap segar lebih lama.",
+      ],
+    },
+    {
+      label: "Pengiriman & Pengembalian",
+      body: [
+        "Pengiriman same-day tersedia untuk pemesanan sebelum pukul 15.00 di area Jabodetabek. Estimasi tiba menyesuaikan lokasi dan jam operasional kurir.",
+        "Karena produk mudah rusak, pengembalian hanya berlaku bila terjadi kesalahan pengiriman atau kerusakan saat diterima — cukup hubungi kami disertai foto dalam 2 jam pertama.",
+      ],
+    },
+  ],
+} as const;
+
+export const relatedProducts: Product[] = [
+  { img: productAsset.p4, name: "Pesona Lavender Mewah", price: "Rp 90.000" },
+  { img: productAsset.p8, name: "Pesona Lavender Mewah", price: "Rp 75.000" },
+  { img: productAsset.p9, name: "Pesona Lavender Mewah", price: "Rp 82.500" },
+  { img: productAsset.p6, name: "Pesona Lavender Mewah", price: "Rp 82.500" },
+  { img: productAsset.p5, name: "Pesona Lavender Mewah", price: "Rp 78.000" },
+];
+
 export const filterKategori = [
   "Buket Fresh Flower",
   "Buket Artificial",

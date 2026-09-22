@@ -218,6 +218,15 @@ export function IconChevronDown({ className, ...p }: P) {
   );
 }
 
+export function IconTag({ className, ...p }: P) {
+  return (
+    <svg className={className} {...base} {...p}>
+      <path d="M4 12.5V5.5A1.5 1.5 0 0 1 5.5 4h7l7.5 7.5a1.5 1.5 0 0 1 0 2.1l-5.9 5.9a1.5 1.5 0 0 1-2.1 0L4 12.5Z" />
+      <circle cx="8.5" cy="8.5" r="1.4" />
+    </svg>
+  );
+}
+
 export function IconCheck({ className, ...p }: P) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" {...p}>

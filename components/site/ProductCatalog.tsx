@@ -315,7 +315,7 @@ export default function ProductCatalog() {
               {products.map((p, i) => (
                 <Reveal key={`${tab}-${i}`} delay={(i % 3) * 70}>
                   <a
-                    href="#"
+                    href="/product/detail"
                     className="group flex flex-col gap-[16px] focus:outline-none"
                   >
                     <div className="relative w-full aspect-[321/384] overflow-hidden bg-[#efeef4]">
