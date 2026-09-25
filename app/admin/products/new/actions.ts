@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { getCurrentUser } from "@/lib/supabase/server";
+import { getAdminUser } from "@/lib/supabase/server";
 
 type SupabaseStorage = ReturnType<typeof supabaseAdmin>["storage"];
 
@@ -20,7 +20,7 @@ async function uploadFile(storage: SupabaseStorage, file: File): Promise<string>
 export type CreateResult = { ok: true; id: string; warning?: string } | { ok: false; error: string };
 
 export async function createProduct(formData: FormData): Promise<CreateResult> {
-  if (!(await getCurrentUser())) return { ok: false, error: "Tidak diizinkan. Silakan login sebagai admin." };
+  if (!(await getAdminUser())) return { ok: false, error: "Tidak diizinkan. Silakan login sebagai admin." };
   const sb = supabaseAdmin();
 
   let thumbnail_url = (formData.get("thumbExisting") as string) || null;
@@ -65,7 +65,7 @@ export async function createProduct(formData: FormData): Promise<CreateResult> {
 }
 
 export async function updateProduct(id: string, formData: FormData): Promise<CreateResult> {
-  if (!(await getCurrentUser())) return { ok: false, error: "Tidak diizinkan. Silakan login sebagai admin." };
+  if (!(await getAdminUser())) return { ok: false, error: "Tidak diizinkan. Silakan login sebagai admin." };
   const sb = supabaseAdmin();
 
   let thumbnail_url = (formData.get("thumbExisting") as string) || null;

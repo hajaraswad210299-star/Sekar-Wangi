@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { isAllowedAdmin } from "@/lib/adminAccess";
 
 /**
  * Supabase client for Server Components / Route Handlers that reads the
@@ -28,7 +29,7 @@ export async function supabaseServer() {
   );
 }
 
-/** Returns the signed-in user, or null. Use to guard admin server actions. */
+/** Returns the signed-in user, or null. */
 export async function getCurrentUser() {
   try {
     const sb = await supabaseServer();
@@ -39,4 +40,11 @@ export async function getCurrentUser() {
   } catch {
     return null;
   }
+}
+
+/** Returns the signed-in user only if allowed into the admin, else null.
+ *  Use to guard admin server actions. */
+export async function getAdminUser() {
+  const user = await getCurrentUser();
+  return user && isAllowedAdmin(user.email) ? user : null;
 }

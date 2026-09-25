@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { isAllowedAdmin } from "@/lib/adminAccess";
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -27,17 +28,19 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const path = request.nextUrl.pathname;
+  const allowed = !!user && isAllowedAdmin(user.email);
 
-  // Not signed in and trying to reach the admin → send to login.
-  if (path.startsWith("/admin") && !user) {
+  // Trying to reach the admin without an allowed session → send to login.
+  if (path.startsWith("/admin") && !allowed) {
     const redirect = request.nextUrl.clone();
     redirect.pathname = "/login";
     redirect.searchParams.set("next", path);
+    if (user && !allowed) redirect.searchParams.set("error", "forbidden");
     return NextResponse.redirect(redirect);
   }
 
-  // Already signed in and on the login page → go to the admin.
-  if (path === "/login" && user) {
+  // Already signed in (and allowed) on the login page → go to the admin.
+  if (path === "/login" && allowed) {
     const redirect = request.nextUrl.clone();
     redirect.pathname = "/admin";
     redirect.search = "";

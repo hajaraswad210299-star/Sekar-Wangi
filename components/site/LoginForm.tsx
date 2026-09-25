@@ -12,13 +12,36 @@ export default function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(
+    params.get("error") === "forbidden"
+      ? "Akun ini tidak memiliki akses admin."
+      : params.get("error") === "oauth"
+        ? "Gagal masuk dengan Google. Coba lagi."
+        : null,
+  );
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
+
+  const signInWithGoogle = async () => {
+    setError(null);
+    setGoogleLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+      },
+    });
+    if (error) {
+      setGoogleLoading(false);
+      setError(error.message);
+    }
+    // on success the browser is redirected to Google, no further code runs.
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +73,28 @@ export default function LoginForm() {
           <p className="text-[#696f96] text-[14px]">Sekar Wangi — panel pengelolaan produk</p>
         </div>
 
+        {error && (
+          <p className="rounded-[10px] bg-[#fdeaf0] text-[#c0173f] border border-[#f6c6d5] px-[14px] py-[10px] text-[13px]">
+            {error}
+          </p>
+        )}
+
+        <button
+          type="button"
+          onClick={signInWithGoogle}
+          disabled={googleLoading}
+          className="flex items-center justify-center gap-[12px] h-[48px] rounded-[10px] border border-[#e1e2ea] bg-white text-[#3f425a] text-[15px] font-medium transition-colors hover:bg-[#f7f7fb] disabled:opacity-60"
+        >
+          <img alt="" src={asset.googleLogo} className="size-[20px]" />
+          {googleLoading ? "Menghubungkan…" : "Masuk dengan Google"}
+        </button>
+
+        <div className="flex items-center gap-[12px]">
+          <span className="h-px flex-1 bg-[#e5e3f2]" />
+          <span className="text-[#a5a8c0] text-[12px]">atau email</span>
+          <span className="h-px flex-1 bg-[#e5e3f2]" />
+        </div>
+
         <form onSubmit={onSubmit} className="flex flex-col gap-[16px]">
           <label className="flex flex-col gap-[8px]">
             <span className="text-[#3f425a] text-[14px] font-medium">Email</span>
@@ -75,12 +120,6 @@ export default function LoginForm() {
               autoComplete="current-password"
             />
           </label>
-
-          {error && (
-            <p className="rounded-[10px] bg-[#fdeaf0] text-[#c0173f] border border-[#f6c6d5] px-[14px] py-[10px] text-[13px]">
-              {error}
-            </p>
-          )}
 
           <button
             type="submit"
