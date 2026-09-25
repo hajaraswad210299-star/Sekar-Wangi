@@ -5,9 +5,23 @@ import { useRouter } from "next/navigation";
 import { productAsset } from "@/components/figmaAssets";
 import { IconArrowLeft, IconChevronDown } from "@/components/site/icons";
 import { IconUpload, IconImage, IconSave, IconGrip, IconDoc } from "@/components/admin/icons";
-import { createProduct } from "@/app/admin/products/new/actions";
+import { createProduct, updateProduct } from "@/app/admin/products/new/actions";
 
 type Img = { url: string; file: File | null };
+
+export type InitialProduct = {
+  title: string;
+  size: string;
+  jenis: string;
+  tags: string[];
+  thumbUrl: string | null;
+  imageUrls: string[];
+  stok: string;
+  harga: string;
+  detail: string;
+  care: string;
+  shipping: string;
+};
 
 /* --------------------------- small building blocks --------------------------- */
 
@@ -102,30 +116,45 @@ function formatRp(v: string) {
   return "Rp " + n.toLocaleString("id-ID");
 }
 
-export default function AdminCreateProduct() {
+export default function AdminCreateProduct({
+  initial,
+  productId,
+}: {
+  initial?: InitialProduct;
+  productId?: string;
+} = {}) {
   const router = useRouter();
+  const isEdit = !!productId;
   const [pending, startTransition] = useTransition();
   const [status, setStatus] = useState<{ type: "ok" | "err"; msg: string } | null>(null);
 
-  const [title, setTitle] = useState("");
-  const [size, setSize] = useState("");
-  const [jenis, setJenis] = useState("Buket Bunga");
+  const [title, setTitle] = useState(initial?.title ?? "");
+  const [size, setSize] = useState(initial?.size ?? "");
+  const [jenis, setJenis] = useState(initial?.jenis ?? "Buket Bunga");
   const [tagInput, setTagInput] = useState("");
-  const [tags, setTags] = useState<string[]>(["Buket Bunga", "Ulang tahun", "Wisuda"]);
-  const [thumb, setThumb] = useState<Img | null>(null);
-  const [images, setImages] = useState<Img[]>([
-    { url: productAsset.p6, file: null },
-    { url: productAsset.p4, file: null },
-    { url: productAsset.p3, file: null },
-  ]);
-  const [stok, setStok] = useState("");
-  const [harga, setHarga] = useState("");
+  const [tags, setTags] = useState<string[]>(
+    initial?.tags ?? ["Buket Bunga", "Ulang tahun", "Wisuda"],
+  );
+  const [thumb, setThumb] = useState<Img | null>(
+    initial?.thumbUrl ? { url: initial.thumbUrl, file: null } : null,
+  );
+  const [images, setImages] = useState<Img[]>(
+    initial
+      ? initial.imageUrls.map((u) => ({ url: u, file: null }))
+      : [
+          { url: productAsset.p6, file: null },
+          { url: productAsset.p4, file: null },
+          { url: productAsset.p3, file: null },
+        ],
+  );
+  const [stok, setStok] = useState(initial?.stok ?? "");
+  const [harga, setHarga] = useState(initial?.harga ?? "");
   const [detailH, setDetailH] = useState("");
-  const [detailB, setDetailB] = useState("");
+  const [detailB, setDetailB] = useState(initial?.detail ?? "");
   const [careH, setCareH] = useState("");
-  const [careB, setCareB] = useState("");
+  const [careB, setCareB] = useState(initial?.care ?? "");
   const [shipH, setShipH] = useState("");
-  const [shipB, setShipB] = useState("");
+  const [shipB, setShipB] = useState(initial?.shipping ?? "");
 
   const thumbInput = useRef<HTMLInputElement>(null);
   const galleryInput = useRef<HTMLInputElement>(null);
@@ -160,10 +189,20 @@ export default function AdminCreateProduct() {
     fd.set("existingImages", JSON.stringify(existing));
 
     startTransition(async () => {
-      const res = await createProduct(fd);
+      const res = productId ? await updateProduct(productId, fd) : await createProduct(fd);
       if (res.ok) {
-        setStatus({ type: "ok", msg: res.warning ? "Tersimpan (dengan catatan): " + res.warning : "Produk berhasil disimpan!" });
-        setTimeout(() => router.push("/admin/products"), 900);
+        setStatus({
+          type: "ok",
+          msg: res.warning
+            ? "Tersimpan (dengan catatan): " + res.warning
+            : isEdit
+              ? "Perubahan berhasil disimpan!"
+              : "Produk berhasil disimpan!",
+        });
+        setTimeout(() => {
+          router.push("/admin/products");
+          router.refresh();
+        }, 900);
       } else {
         setStatus({ type: "err", msg: "Gagal menyimpan: " + res.error });
       }
@@ -184,7 +223,7 @@ export default function AdminCreateProduct() {
         <p className="text-[16px]">
           <span className="text-[#8b8f99]">Product</span>
           <span className="text-[#c3c5d5] mx-[8px]">/</span>
-          <span className="font-semibold text-[#1d211d]">Add New Product</span>
+          <span className="font-semibold text-[#1d211d]">{isEdit ? "Edit Product" : "Add New Product"}</span>
         </p>
       </div>
 

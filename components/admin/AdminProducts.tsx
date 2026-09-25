@@ -4,6 +4,7 @@ import AdminTopbar from "@/components/admin/AdminTopbar";
 import { IconKebab } from "@/components/admin/icons";
 import { IconArrowRight } from "@/components/site/icons";
 import { listAdminProducts, productImage, rupiah } from "@/lib/products";
+import ProductRowMenu from "@/components/admin/ProductRowMenu";
 
 function fmtDate(iso: string): string {
   const d = new Date(iso);
@@ -14,9 +15,21 @@ function fmtDate(iso: string): string {
 
 export default async function AdminProducts() {
   const db = await listAdminProducts();
-  const rows =
+  const rows: {
+    id?: string;
+    status?: string;
+    img: string;
+    name: string;
+    price: string;
+    category: string;
+    size: string;
+    stock: string;
+    updated: string;
+  }[] =
     db.length > 0
       ? db.map((p) => ({
+          id: p.id,
+          status: p.status,
           img: productImage(p),
           name: p.title,
           price: rupiah(p.price),
@@ -25,7 +38,7 @@ export default async function AdminProducts() {
           stock: `${p.stock} PCS`,
           updated: fmtDate(p.updated_at),
         }))
-      : productRows;
+      : productRows.map((r) => ({ ...r }));
 
   return (
     <main className="bg-white lg:rounded-[20px] min-h-screen lg:min-h-[calc(100vh-16px)] overflow-hidden">
@@ -87,7 +100,22 @@ export default async function AdminProducts() {
                         <span className="size-[38px] rounded-[8px] overflow-hidden bg-[#efeef4] shrink-0">
                           <img alt="" src={p.img} className="size-full object-cover" />
                         </span>
-                        <span className="text-[#3f425a] text-[14px] font-medium whitespace-nowrap">{p.name}</span>
+                        <span className="flex flex-col gap-[3px]">
+                          <span className="text-[#3f425a] text-[14px] font-medium whitespace-nowrap">{p.name}</span>
+                          {p.status && (
+                            <span
+                              className={`w-fit text-[11px] font-medium px-[8px] py-[2px] rounded-full capitalize ${
+                                p.status === "published"
+                                  ? "bg-[#eafaf0] text-[#1a7f46]"
+                                  : p.status === "archived"
+                                    ? "bg-[#f2f2f5] text-[#8b8f99]"
+                                    : "bg-[#fff3e0] text-[#b7791f]"
+                              }`}
+                            >
+                              {p.status === "published" ? "Published" : p.status === "archived" ? "Archived" : "Draft"}
+                            </span>
+                          )}
+                        </span>
                       </div>
                     </td>
                     <td className="px-[12px] py-[13px] text-[#3f425a] text-[14px] whitespace-nowrap">{p.price}</td>
@@ -102,12 +130,16 @@ export default async function AdminProducts() {
                     <td className="px-[12px] py-[13px] text-[#8b8f99] text-[14px] whitespace-nowrap">{p.stock}</td>
                     <td className="px-[12px] py-[13px] text-[#3f425a] text-[14px] whitespace-nowrap">{p.updated}</td>
                     <td className="px-[16px] py-[13px]">
-                      <button
-                        aria-label="Aksi"
-                        className="flex items-center justify-center size-[30px] rounded-[8px] text-[#8b8f99] transition-colors hover:bg-[#eceaf6] hover:text-[#544997]"
-                      >
-                        <IconKebab className="size-[15px]" />
-                      </button>
+                      {p.id ? (
+                        <ProductRowMenu id={p.id} status={p.status ?? "draft"} />
+                      ) : (
+                        <button
+                          aria-label="Aksi"
+                          className="flex items-center justify-center size-[30px] rounded-[8px] text-[#8b8f99] transition-colors hover:bg-[#eceaf6] hover:text-[#544997]"
+                        >
+                          <IconKebab className="size-[15px]" />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
