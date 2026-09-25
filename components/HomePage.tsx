@@ -1,6 +1,5 @@
 import {
   asset,
-  favorites,
   favoriteTabs,
   stores,
   brandLogos,
@@ -195,7 +194,9 @@ function HeroText() {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function HomePage() {
+export type FavoriteItem = { img: string; name: string; price: string; href: string };
+
+export default function HomePage({ favorites }: { favorites: FavoriteItem[] }) {
   return (
     <div className="bg-[#f3f2f7] relative w-full overflow-x-hidden">
       <Navbar />
@@ -292,7 +293,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[20px] w-full">
             {favorites.map((p, i) => (
               <Reveal key={p.name} delay={i * 70} className="h-full">
-                <a href="/product/detail" className="group flex flex-col gap-[14px] bg-[#f2f3f7] border border-[#e1e2ea] p-[16px] h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
+                <a href={p.href} className="group flex flex-col gap-[14px] bg-[#f2f3f7] border border-[#e1e2ea] p-[16px] h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(84,73,151,0.5)] hover:border-[#c9c4e6]">
                   <div className="relative w-full overflow-hidden h-[220px] sm:h-[240px] lg:h-[271px]">
                     <img alt={p.name} className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105" src={p.img} />
                   </div>

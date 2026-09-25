@@ -1,9 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { productAsset } from "@/components/figmaAssets";
 import { IconArrowLeft, IconChevronDown } from "@/components/site/icons";
 import { IconUpload, IconImage, IconSave, IconGrip, IconDoc } from "@/components/admin/icons";
+import { createProduct } from "@/app/admin/products/new/actions";
+
+type Img = { url: string; file: File | null };
 
 /* --------------------------- small building blocks --------------------------- */
 
@@ -50,7 +54,19 @@ function Toolbar() {
   );
 }
 
-function RichSection({ title }: { title: string }) {
+function RichSection({
+  title,
+  heading,
+  onHeading,
+  body,
+  onBody,
+}: {
+  title: string;
+  heading: string;
+  onHeading: (v: string) => void;
+  body: string;
+  onBody: (v: string) => void;
+}) {
   return (
     <div className="flex items-stretch gap-[10px]">
       <span className="hidden md:flex items-center text-[#c3c5d5]"><IconGrip className="size-[16px]" /></span>
@@ -59,13 +75,15 @@ function RichSection({ title }: { title: string }) {
           <IconDoc className="size-[17px]" /> {title}
         </p>
         <Field label="Heading">
-          <input className={inputCls} placeholder="Header Tittle..." />
+          <input value={heading} onChange={(e) => onHeading(e.target.value)} className={inputCls} placeholder="Header Tittle..." />
         </Field>
         <div className="flex flex-col gap-[8px]">
           <span className="text-[#3f425a] text-[14px] font-medium">Body Text</span>
           <div className="rounded-[10px] border border-[#e1e2ea] overflow-hidden">
             <Toolbar />
             <textarea
+              value={body}
+              onChange={(e) => onBody(e.target.value)}
               className="w-full h-[130px] resize-none bg-[#f7f7fb] px-[16px] py-[12px] text-[15px] text-[#3f425a] placeholder:text-[#a5a8c0] outline-none"
               placeholder="Describe your content..."
             />
@@ -85,15 +103,29 @@ function formatRp(v: string) {
 }
 
 export default function AdminCreateProduct() {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [status, setStatus] = useState<{ type: "ok" | "err"; msg: string } | null>(null);
+
   const [title, setTitle] = useState("");
   const [size, setSize] = useState("");
   const [jenis, setJenis] = useState("Buket Bunga");
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>(["Buket Bunga", "Ulang tahun", "Wisuda"]);
-  const [thumb, setThumb] = useState<string | null>(null);
-  const [images, setImages] = useState<string[]>([productAsset.p6, productAsset.p4, productAsset.p3]);
+  const [thumb, setThumb] = useState<Img | null>(null);
+  const [images, setImages] = useState<Img[]>([
+    { url: productAsset.p6, file: null },
+    { url: productAsset.p4, file: null },
+    { url: productAsset.p3, file: null },
+  ]);
   const [stok, setStok] = useState("");
   const [harga, setHarga] = useState("");
+  const [detailH, setDetailH] = useState("");
+  const [detailB, setDetailB] = useState("");
+  const [careH, setCareH] = useState("");
+  const [careB, setCareB] = useState("");
+  const [shipH, setShipH] = useState("");
+  const [shipB, setShipB] = useState("");
 
   const thumbInput = useRef<HTMLInputElement>(null);
   const galleryInput = useRef<HTMLInputElement>(null);
@@ -105,7 +137,38 @@ export default function AdminCreateProduct() {
   };
 
   const priceLabel = formatRp(harga);
-  const previewImg = thumb ?? images[0] ?? productAsset.p8;
+  const previewImg = thumb?.url ?? images[0]?.url ?? productAsset.p8;
+  const merge = (h: string, b: string) => [h.trim(), b.trim()].filter(Boolean).join("\n\n") || null;
+
+  const submit = (statusValue: "draft" | "published") => {
+    setStatus(null);
+    const fd = new FormData();
+    fd.set("title", title);
+    fd.set("size_cm", size.replace(/\D/g, ""));
+    fd.set("jenis", jenis);
+    fd.set("categories", JSON.stringify(tags));
+    fd.set("price", harga.replace(/\D/g, ""));
+    fd.set("stock", stok.replace(/\D/g, ""));
+    fd.set("detail", merge(detailH, detailB) ?? "");
+    fd.set("care", merge(careH, careB) ?? "");
+    fd.set("shipping", merge(shipH, shipB) ?? "");
+    fd.set("status", statusValue);
+    if (thumb?.file) fd.set("thumbnail", thumb.file);
+    else if (thumb?.url) fd.set("thumbExisting", thumb.url);
+    const existing: string[] = [];
+    images.forEach((im) => (im.file ? fd.append("image", im.file) : existing.push(im.url)));
+    fd.set("existingImages", JSON.stringify(existing));
+
+    startTransition(async () => {
+      const res = await createProduct(fd);
+      if (res.ok) {
+        setStatus({ type: "ok", msg: res.warning ? "Tersimpan (dengan catatan): " + res.warning : "Produk berhasil disimpan!" });
+        setTimeout(() => router.push("/admin/products"), 900);
+      } else {
+        setStatus({ type: "err", msg: "Gagal menyimpan: " + res.error });
+      }
+    });
+  };
 
   return (
     <main className="bg-white lg:rounded-[20px] min-h-screen lg:min-h-[calc(100vh-16px)] overflow-hidden">
@@ -125,6 +188,16 @@ export default function AdminCreateProduct() {
         </p>
       </div>
 
+      {status && (
+        <div
+          className={`mx-[24px] lg:mx-[32px] mt-[20px] rounded-[10px] px-[16px] py-[12px] text-[14px] ${
+            status.type === "ok" ? "bg-[#eafaf0] text-[#1a7f46] border border-[#bfe9d0]" : "bg-[#fdeaf0] text-[#c0173f] border border-[#f6c6d5]"
+          }`}
+        >
+          {status.msg}
+        </div>
+      )}
+
       <div className="px-[24px] lg:px-[32px] py-[24px] flex flex-col xl:flex-row gap-[24px]">
         {/* ------------------------------ left ------------------------------ */}
         <div className="flex-1 min-w-px flex flex-col gap-[24px]">
@@ -142,7 +215,7 @@ export default function AdminCreateProduct() {
 
             <Field label="Size Diameter">
               <div className="relative">
-                <input value={size} onChange={(e) => setSize(e.target.value)} className={inputCls + " pr-[52px]"} placeholder="E.g 40" />
+                <input value={size} onChange={(e) => setSize(e.target.value)} className={inputCls + " pr-[52px]"} placeholder="E.g 40" inputMode="numeric" />
                 <span className="absolute right-[16px] top-1/2 -translate-y-1/2 text-[#8b8f99] text-[14px]">CM</span>
               </div>
             </Field>
@@ -167,7 +240,12 @@ export default function AdminCreateProduct() {
                   <input
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addTag();
+                      }
+                    }}
                     className={inputCls + " pr-[44px]"}
                     placeholder="Buket Bungan Balon"
                   />
@@ -209,7 +287,7 @@ export default function AdminCreateProduct() {
                 className="group relative w-full overflow-hidden rounded-[12px] border border-dashed border-[#cbc7e0] bg-[#f7f7fb] transition-colors hover:border-[#928ac7] hover:bg-[#f1eff9]"
               >
                 {thumb ? (
-                  <img alt="" src={thumb} className="w-full h-[190px] object-cover" />
+                  <img alt="" src={thumb.url} className="w-full h-[190px] object-cover" />
                 ) : (
                   <div className="flex flex-col items-center justify-center gap-[10px] py-[44px]">
                     <span className="flex items-center justify-center size-[46px] rounded-full bg-white text-[#544997] shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5">
@@ -227,7 +305,7 @@ export default function AdminCreateProduct() {
                 hidden
                 onChange={(e) => {
                   const f = e.target.files?.[0];
-                  if (f) setThumb(URL.createObjectURL(f));
+                  if (f) setThumb({ url: URL.createObjectURL(f), file: f });
                 }}
               />
             </Field>
@@ -239,9 +317,9 @@ export default function AdminCreateProduct() {
               <IconImage className="size-[18px]" /> IMAGE
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-[14px]">
-              {images.map((src, i) => (
+              {images.map((im, i) => (
                 <div key={i} className="group relative aspect-square rounded-[12px] overflow-hidden bg-[#efeef4]">
-                  <img alt="" src={src} className="size-full object-cover" />
+                  <img alt="" src={im.url} className="size-full object-cover" />
                   <button
                     type="button"
                     onClick={() => setImages(images.filter((_, x) => x !== i))}
@@ -270,7 +348,7 @@ export default function AdminCreateProduct() {
                 multiple
                 hidden
                 onChange={(e) => {
-                  const files = Array.from(e.target.files ?? []).map((f) => URL.createObjectURL(f));
+                  const files = Array.from(e.target.files ?? []).map((f) => ({ url: URL.createObjectURL(f), file: f }));
                   if (files.length) setImages([...images, ...files]);
                 }}
               />
@@ -279,9 +357,9 @@ export default function AdminCreateProduct() {
 
           {/* rich sections */}
           <p className="text-[#544997] text-[14px] font-medium">Informasi Pokok Produk</p>
-          <RichSection title="Detail Buket" />
-          <RichSection title="Perawatan Bunga" />
-          <RichSection title="Pengiriman &amp; Pengembalian" />
+          <RichSection title="Detail Buket" heading={detailH} onHeading={setDetailH} body={detailB} onBody={setDetailB} />
+          <RichSection title="Perawatan Bunga" heading={careH} onHeading={setCareH} body={careB} onBody={setCareB} />
+          <RichSection title="Pengiriman & Pengembalian" heading={shipH} onHeading={setShipH} body={shipB} onBody={setShipB} />
         </div>
 
         {/* ------------------------------ right ------------------------------ */}
@@ -323,18 +401,30 @@ export default function AdminCreateProduct() {
 
           {/* actions */}
           <div className="flex items-center gap-[12px]">
-            <button className="group flex-1 flex items-center justify-center gap-[8px] h-[48px] rounded-[10px] border border-[#e1e2ea] text-[#3f425a] text-[14px] font-medium transition-colors hover:bg-[#f2f3f7]">
+            <button
+              type="button"
+              disabled={pending}
+              onClick={() => submit("draft")}
+              className="group flex-1 flex items-center justify-center gap-[8px] h-[48px] rounded-[10px] border border-[#e1e2ea] text-[#3f425a] text-[14px] font-medium transition-colors hover:bg-[#f2f3f7] disabled:opacity-50"
+            >
               Save as Draft
               <IconSave className="size-[17px] text-[#8b8f99] transition-colors group-hover:text-[#544997]" />
             </button>
-            <button className="group flex-1 flex items-center justify-center gap-[8px] h-[48px] rounded-[10px] bg-[#544997] text-white text-[14px] font-medium transition-colors hover:bg-[#443a86]">
-              Publish
-              <span className="transition-transform duration-500 group-hover:rotate-180">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="size-[17px]">
-                  <circle cx="12" cy="12" r="8.4" />
-                  <path d="M3.7 12h16.6M12 3.6c2.3 2.3 3.6 5.3 3.6 8.4s-1.3 6.1-3.6 8.4c-2.3-2.3-3.6-5.3-3.6-8.4S9.7 5.9 12 3.6Z" />
-                </svg>
-              </span>
+            <button
+              type="button"
+              disabled={pending}
+              onClick={() => submit("published")}
+              className="group flex-1 flex items-center justify-center gap-[8px] h-[48px] rounded-[10px] bg-[#544997] text-white text-[14px] font-medium transition-colors hover:bg-[#443a86] disabled:opacity-60"
+            >
+              {pending ? "Menyimpan…" : "Publish"}
+              {!pending && (
+                <span className="transition-transform duration-500 group-hover:rotate-180">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="size-[17px]">
+                    <circle cx="12" cy="12" r="8.4" />
+                    <path d="M3.7 12h16.6M12 3.6c2.3 2.3 3.6 5.3 3.6 8.4s-1.3 6.1-3.6 8.4c-2.3-2.3-3.6-5.3-3.6-8.4S9.7 5.9 12 3.6Z" />
+                  </svg>
+                </span>
+              )}
             </button>
           </div>
         </div>

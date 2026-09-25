@@ -3,8 +3,30 @@ import StatCard from "@/components/admin/StatCard";
 import AdminTopbar from "@/components/admin/AdminTopbar";
 import { IconKebab } from "@/components/admin/icons";
 import { IconArrowRight } from "@/components/site/icons";
+import { listAdminProducts, productImage, rupiah } from "@/lib/products";
 
-export default function AdminProducts() {
+function fmtDate(iso: string): string {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime())
+    ? "—"
+    : d.toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" });
+}
+
+export default async function AdminProducts() {
+  const db = await listAdminProducts();
+  const rows =
+    db.length > 0
+      ? db.map((p) => ({
+          img: productImage(p),
+          name: p.title,
+          price: rupiah(p.price),
+          category: p.categories[0] ?? p.jenis ?? "—",
+          size: p.size_cm ? `${p.size_cm} CM` : "—",
+          stock: `${p.stock} PCS`,
+          updated: fmtDate(p.updated_at),
+        }))
+      : productRows;
+
   return (
     <main className="bg-white lg:rounded-[20px] min-h-screen lg:min-h-[calc(100vh-16px)] overflow-hidden">
       <AdminTopbar page="Products" />
@@ -58,7 +80,7 @@ export default function AdminProducts() {
                 </tr>
               </thead>
               <tbody>
-                {productRows.map((p, i) => (
+                {rows.map((p, i) => (
                   <tr key={i} className="border-t border-[#eef0f3] transition-colors hover:bg-white">
                     <td className="px-[24px] py-[13px]">
                       <div className="flex items-center gap-[12px]">
