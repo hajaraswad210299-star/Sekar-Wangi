@@ -5,8 +5,14 @@ import { relatedProducts } from "@/components/figmaAssets";
 import { IconArrowLeft, IconArrowRight, IconHeart } from "@/components/site/icons";
 import Reveal from "@/components/site/Reveal";
 
-export default function RelatedProducts() {
+export type RelatedItem = { img: string; name: string; price: string; href: string };
+
+export default function RelatedProducts({ items }: { items?: RelatedItem[] }) {
   const track = useRef<HTMLDivElement>(null);
+  const list: RelatedItem[] =
+    items && items.length > 0
+      ? items
+      : relatedProducts.map((r) => ({ ...r, href: "/product/detail" }));
 
   const scrollBy = (dir: 1 | -1) => {
     const el = track.current;
@@ -45,13 +51,13 @@ export default function RelatedProducts() {
           ref={track}
           className="flex gap-[16px] lg:gap-[24px] overflow-x-auto pb-2 -mx-5 px-5 md:-mx-10 md:px-10 lg:mx-0 lg:px-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
-          {relatedProducts.map((p, i) => (
+          {list.map((p, i) => (
             <Reveal
               key={i}
               delay={i * 60}
               className="group snap-start shrink-0 w-[240px] sm:w-[280px] lg:w-[320px] flex flex-col gap-[16px]"
             >
-              <a href="/product/detail" className="flex flex-col gap-[16px]">
+              <a href={p.href} className="flex flex-col gap-[16px]">
                 <div className="relative w-full aspect-[321/384] overflow-hidden bg-[#efeef4]">
                   <img
                     alt={p.name}

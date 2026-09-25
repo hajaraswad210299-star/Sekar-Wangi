@@ -2,7 +2,14 @@ import type { Metadata } from "next";
 import ProductDetailPage from "@/components/ProductDetailPage";
 import type { DetailData } from "@/components/site/ProductDetail";
 import { detailProduct } from "@/components/figmaAssets";
-import { getProduct, rupiah, type ProductRow } from "@/lib/products";
+import {
+  getProduct,
+  listPublishedProducts,
+  productImage,
+  rupiah,
+  type ProductRow,
+} from "@/lib/products";
+import type { RelatedItem } from "@/components/site/RelatedProducts";
 
 export const metadata: Metadata = {
   title: "Detail Produk — Sekar Wangi",
@@ -49,5 +56,21 @@ export default async function Page({
   const row = id ? await getProduct(id) : null;
   const product = row ? toDetail(row) : undefined;
 
-  return <ProductDetailPage product={product} />;
+  const published = await listPublishedProducts(12);
+  const related: RelatedItem[] = published
+    .filter((p) => p.id !== id)
+    .slice(0, 8)
+    .map((p) => ({
+      img: productImage(p),
+      name: p.title,
+      price: rupiah(p.price),
+      href: `/product/detail?id=${p.id}`,
+    }));
+
+  return (
+    <ProductDetailPage
+      product={product}
+      related={related.length ? related : undefined}
+    />
+  );
 }

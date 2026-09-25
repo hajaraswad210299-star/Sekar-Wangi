@@ -1,6 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { createBrowserClient } from "@supabase/ssr";
 import { asset } from "@/components/figmaAssets";
 import { IconGrid, IconSearch } from "@/components/site/icons";
 import { IconChartBox, IconParcel, IconPanelLeft } from "@/components/admin/icons";
@@ -13,6 +14,17 @@ const nav = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const signOut = async () => {
+    const supabase = createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  };
 
   return (
     <aside className="hidden lg:flex flex-col w-[264px] shrink-0 sticky top-0 h-screen bg-[#141415] text-white px-[16px] py-[20px]">
@@ -70,10 +82,22 @@ export default function AdminSidebar() {
       {/* user */}
       <div className="mt-auto flex items-center gap-[12px] bg-[#232325] rounded-[12px] p-[10px]">
         <img alt="" src={asset.ellipse1} className="size-[40px] rounded-full object-cover" />
-        <div className="flex flex-col min-w-px">
+        <div className="flex flex-col min-w-px flex-1">
           <p className="text-[14px] font-medium leading-tight truncate">Yuna Claire</p>
           <p className="text-[12px] text-[#8a8a95] leading-tight truncate">yunaclaire@mail.com</p>
         </div>
+        <button
+          type="button"
+          onClick={signOut}
+          aria-label="Keluar"
+          title="Keluar"
+          className="flex items-center justify-center size-[34px] rounded-[9px] text-[#9a9aa7] transition-colors hover:bg-white/[0.08] hover:text-white shrink-0"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" className="size-[18px]">
+            <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" />
+            <path d="M10 17l-5-5 5-5M5 12h11" />
+          </svg>
+        </button>
       </div>
     </aside>
   );
