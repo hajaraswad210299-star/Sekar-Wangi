@@ -7,6 +7,7 @@ import {
 } from "@/components/figmaAssets";
 import Navbar from "@/components/site/Navbar";
 import Reveal from "@/components/site/Reveal";
+import CountUp from "@/components/site/CountUp";
 import Footer from "@/components/site/Footer";
 import WhatsappFab from "@/components/site/WhatsappFab";
 import {
@@ -87,20 +88,31 @@ function FeatureItem({ title, desc, Icon }: (typeof featureItems)[number]) {
 /*  Hero pieces                                                        */
 /* ------------------------------------------------------------------ */
 
-const statCards: { num: string; label: string; Icon: IconType }[] = [
-  { num: "9.000+", label: "Order/bulan", Icon: IconBag },
-  { num: "118+", label: "Wilayah", Icon: IconPin },
-  { num: "9.170+", label: "Klien Puas", Icon: IconUsers },
+const statCards: {
+  end: number;
+  separator?: boolean;
+  suffix: string;
+  label: string;
+  Icon: IconType;
+}[] = [
+  { end: 9000, separator: true, suffix: "+", label: "Order/bulan", Icon: IconBag },
+  { end: 118, suffix: "+", label: "Wilayah", Icon: IconPin },
+  { end: 9170, separator: true, suffix: "+", label: "Klien Puas", Icon: IconUsers },
 ];
 
-function StatCard({ num, label, Icon }: (typeof statCards)[number]) {
+function StatCard({ end, separator, suffix, label, Icon }: (typeof statCards)[number]) {
   return (
-    <div className="flex gap-[16px] items-center">
-      <div className="bg-[#e1e2ea] flex items-center justify-center shrink-0 size-[60px]">
-        <Icon className="size-[30px] text-[#544997]" />
+    <div className="group flex gap-[16px] items-center">
+      <div className="bg-[#e1e2ea] flex items-center justify-center shrink-0 size-[60px] transition-colors duration-300 group-hover:bg-[#d5d3e6]">
+        <Icon className="size-[30px] text-[#544997] transition-transform duration-300 group-hover:scale-110" />
       </div>
       <div className="flex flex-col font-medium items-start text-[#3f425a]">
-        <p className="leading-[1.2] text-[28px] tracking-[-0.56px] whitespace-nowrap">{num}</p>
+        <CountUp
+          end={end}
+          separator={separator}
+          suffix={suffix}
+          className="leading-[1.2] text-[28px] tracking-[-0.56px] whitespace-nowrap"
+        />
         <p className="leading-[1.35] text-[12px] tracking-[-0.12px] whitespace-nowrap">{label}</p>
       </div>
     </div>
@@ -117,19 +129,19 @@ function MiniStats() {
           <img alt="" className="size-[44px]" height={44} width={44} src={asset.ellipse3} />
         </div>
         <div className="flex flex-col items-start">
-          <p className="font-semibold leading-[1.35] text-[#3f425a] text-[20px] whitespace-nowrap">200rb+</p>
+          <CountUp end={200} suffix="rb+" className="font-semibold leading-[1.35] text-[#3f425a] text-[20px] whitespace-nowrap" />
           <div className="flex gap-[4px] items-center">
             <img alt="" className="size-[14px]" src={asset.star} />
             <p className="font-medium leading-[1.35] text-[#3f425a] text-[12px] whitespace-nowrap">4.9 Rating</p>
           </div>
         </div>
       </div>
-      <div className="flex gap-[12px] items-center">
-        <div className="bg-[#928ac7] flex items-center justify-center rounded-[22px] size-[44px]">
+      <div className="group flex gap-[12px] items-center">
+        <div className="bg-[#928ac7] flex items-center justify-center rounded-[22px] size-[44px] transition-transform duration-300 group-hover:scale-105">
           <IconHeart className="size-[22px] text-white" />
         </div>
         <div className="flex flex-col items-start leading-[1.35] text-[#3f425a] whitespace-nowrap">
-          <p className="font-semibold text-[20px]">940+</p>
+          <CountUp end={940} suffix="+" className="font-semibold text-[20px]" />
           <p className="font-medium text-[12px]">Happy customer</p>
         </div>
       </div>
@@ -314,10 +326,8 @@ export default function HomePage() {
               </span>
             </a>
           </Reveal>
-          <div className="relative lg:absolute lg:h-[401px] lg:right-0 lg:top-[-1px] w-full lg:w-[711px] h-[220px] sm:h-[300px]">
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <img alt="" className="absolute lg:h-[100.1%] lg:left-[-61.49%] lg:top-[-0.05%] lg:w-[168.8%] inset-0 size-full object-cover" src={asset.chatgpt} />
-            </div>
+          <div className="relative w-full lg:w-[711px] h-[220px] sm:h-[300px] lg:h-full shrink-0 overflow-hidden">
+            <img alt="" className="absolute inset-0 size-full object-cover lg:h-[100.1%] lg:w-[168.8%] lg:left-[-61.49%] lg:top-[-0.05%] lg:max-w-none pointer-events-none" src={asset.chatgpt} />
           </div>
         </Container>
       </section>
@@ -332,24 +342,30 @@ export default function HomePage() {
           </Reveal>
 
           <div className="flex flex-col gap-[40px] w-full">
-            {/* ---- filmstrip: full-bleed centrepiece flanked by thumbnails (xl+) ---- */}
-            <div className="hidden xl:flex gap-[24px] items-end justify-center w-full">
-              <img alt="" className="h-[152px] w-[204px] object-cover shrink-0" src={asset.image6} />
-              <img alt="" className="h-[152px] w-[204px] object-cover shrink-0" src={asset.image13} />
-              <Reveal className="flex gap-[40px] items-stretch shrink-0">
-                <img alt="" className="h-[380px] w-[296px] object-cover shrink-0" src={asset.image8} />
-                <div className="flex flex-col justify-between w-[360px] py-[4px]">
-                  <p className="font-normal leading-[1.5] text-[#3c3e3e] text-[22px] tracking-[-0.66px]">
-                    Bunganya bagus banget, pas sampai masih fresh dan penataannya juga rapi. Yang paling suka itu warnanya ternyata lebih cantik dari yang saya bayangkan.
-                  </p>
-                  <div className="flex flex-col gap-[6px] leading-[1.2]">
-                    <p className="font-medium text-[#1d211d] text-[20px] tracking-[-0.6px]">Alya Prameswari</p>
-                    <p className="font-normal text-[#879687] text-[16px] tracking-[-0.48px]">Marketing Manager</p>
+            {/* ---- filmstrip: centrepiece flanked by thumbnails that bleed off both
+                    edges (xl+). Left thumbs top-align with the portrait, right
+                    thumbs bottom-align with it, matching the Figma layout. ---- */}
+            <div className="hidden xl:flex gap-[24px] items-end justify-center w-full -mx-[60px]">
+              <div className="flex gap-[24px] items-start shrink-0">
+                <img alt="" className="h-[152px] w-[204px] object-cover shrink-0" src={asset.image6} />
+                <img alt="" className="h-[152px] w-[204px] object-cover shrink-0" src={asset.image13} />
+                <Reveal className="flex gap-[40px] items-start shrink-0">
+                  <img alt="" className="h-[380px] w-[296px] object-cover shrink-0" src={asset.image8} />
+                  <div className="flex flex-col justify-between h-[380px] w-[464px] py-[4px]">
+                    <p className="font-normal leading-[1.5] text-[#3c3e3e] text-[28px] tracking-[-0.84px]">
+                      Bunganya bagus banget, pas sampai masih fresh dan penataannya juga rapi. Yang paling suka itu warnanya ternyata lebih cantik dari yang saya bayangkan.
+                    </p>
+                    <div className="flex flex-col gap-[6px] leading-[1.2]">
+                      <p className="font-medium text-[#1d211d] text-[20px] tracking-[-0.6px]">Alya Prameswari</p>
+                      <p className="font-normal text-[#879687] text-[16px] tracking-[-0.48px]">Marketing Manager</p>
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-              <img alt="" className="h-[152px] w-[204px] object-cover shrink-0" src={asset.image7} />
-              <img alt="" className="h-[380px] w-[204px] object-cover shrink-0" src={asset.image11} />
+                </Reveal>
+              </div>
+              <div className="flex gap-[24px] items-end shrink-0">
+                <img alt="" className="h-[152px] w-[204px] object-cover shrink-0" src={asset.image7} />
+                <img alt="" className="h-[152px] w-[204px] object-cover shrink-0" src={asset.image11} />
+              </div>
             </div>
 
             {/* ---- stacked layout (< xl) ---- */}
