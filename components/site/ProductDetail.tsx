@@ -6,8 +6,23 @@ import { IconStar, IconBag, IconTag, IconHome } from "@/components/site/icons";
 import Reveal from "@/components/site/Reveal";
 import CheckoutModal from "@/components/site/CheckoutModal";
 
-export default function ProductDetail() {
-  const p = detailProduct;
+export type DetailData = {
+  name: string;
+  badge: string;
+  category: string;
+  size: string;
+  rating: number;
+  ratingValue: string;
+  price: string;
+  installment: string;
+  sold: string;
+  stock: number;
+  gallery: readonly string[];
+  tabs: readonly { label: string; body: readonly string[] }[];
+};
+
+export default function ProductDetail({ product }: { product?: DetailData }) {
+  const p: DetailData = product ?? detailProduct;
   const [active, setActive] = useState(0);
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState(0);

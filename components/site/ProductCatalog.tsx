@@ -21,8 +21,23 @@ import Reveal from "@/components/site/Reveal";
 const PRICE_MIN = 34000;
 const PRICE_MAX = 120000;
 
+export type CatalogProduct = Product & {
+  href?: string;
+  categories?: string[];
+  jenis?: string | null;
+};
+
 function fmt(n: number) {
   return "Rp " + n.toLocaleString("id-ID");
+}
+
+/** Loose mapping of a DB product to one of the catalog tabs. */
+function matchesTab(p: CatalogProduct, tab: string): boolean {
+  const hay = [...(p.categories ?? []), p.jenis ?? ""].join(" ").toLowerCase();
+  const t = tab.toLowerCase();
+  if (t.includes("papan")) return hay.includes("papan");
+  if (t.includes("kado")) return hay.includes("kado") || hay.includes("cake");
+  return true; // "Bunga" acts as the catch-all tab
 }
 
 /* ----------------------------- checkbox row ----------------------------- */
@@ -104,7 +119,7 @@ function Section({
 }
 
 /* -------------------------------- catalog -------------------------------- */
-export default function ProductCatalog() {
+export default function ProductCatalog({ dbProducts }: { dbProducts?: CatalogProduct[] }) {
   const [tab, setTab] = useState<string>(productTabs[0]);
   const [page, setPage] = useState(1);
   const [kategori, setKategori] = useState<Set<string>>(new Set(["Buket Balon"]));
@@ -117,7 +132,13 @@ export default function ProductCatalog() {
   const [hi, setHi] = useState(120000);
   const [mobileFilter, setMobileFilter] = useState(false);
 
-  const products: Product[] = productsByTab[tab] ?? [];
+  const hasDb = !!dbProducts && dbProducts.length > 0;
+  const products: CatalogProduct[] = hasDb
+    ? (() => {
+        const matched = dbProducts!.filter((p) => matchesTab(p, tab));
+        return matched.length > 0 ? matched : dbProducts!;
+      })()
+    : productsByTab[tab] ?? [];
 
   const toggle = (set: Set<string>, key: string) => {
     const next = new Set(set);
@@ -315,7 +336,7 @@ export default function ProductCatalog() {
               {products.map((p, i) => (
                 <Reveal key={`${tab}-${i}`} delay={(i % 3) * 70}>
                   <a
-                    href="/product/detail"
+                    href={p.href ?? "/product/detail"}
                     className="group flex flex-col gap-[16px] focus:outline-none"
                   >
                     <div className="relative w-full aspect-[321/384] overflow-hidden bg-[#efeef4]">

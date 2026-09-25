@@ -4,9 +4,10 @@ import Reveal from "@/components/site/Reveal";
 import Footer from "@/components/site/Footer";
 import WhatsappFab from "@/components/site/WhatsappFab";
 import FeatureStrip from "@/components/site/FeatureStrip";
-import ProductCatalog from "@/components/site/ProductCatalog";
+import ProductCatalog, { type CatalogProduct } from "@/components/site/ProductCatalog";
 import BlogJournal from "@/components/site/BlogJournal";
 import { IconHome, IconTruck } from "@/components/site/icons";
+import { listPublishedProducts, productImage, rupiah } from "@/lib/products";
 
 function Hero() {
   return (
@@ -76,13 +77,23 @@ function Hero() {
   );
 }
 
-export default function ProductPage() {
+export default async function ProductPage() {
+  const published = await listPublishedProducts(60);
+  const dbProducts: CatalogProduct[] = published.map((p) => ({
+    img: productImage(p),
+    name: p.title,
+    price: rupiah(p.price),
+    href: `/product/detail?id=${p.id}`,
+    categories: p.categories,
+    jenis: p.jenis,
+  }));
+
   return (
     <div className="bg-[#f3f2f7] relative w-full overflow-x-clip">
       <Navbar />
       <Hero />
       <FeatureStrip />
-      <ProductCatalog />
+      <ProductCatalog dbProducts={dbProducts} />
       <FeatureStrip />
       <BlogJournal />
       <Footer />
