@@ -8,14 +8,14 @@ import CheckoutModal from "@/components/site/CheckoutModal";
 
 export type DetailData = {
   name: string;
-  badge: string;
+  badge?: string;
   category: string;
-  size: string;
-  rating: number;
-  ratingValue: string;
+  size?: string;
+  rating?: number;
+  ratingValue?: string;
   price: string;
-  installment: string;
-  sold: string;
+  installment?: string;
+  sold?: string;
   stock: number;
   gallery: readonly string[];
   tabs: readonly { label: string; body: readonly string[] }[];
@@ -77,27 +77,35 @@ export default function ProductDetail({ product }: { product?: DetailData }) {
               <h1 className="font-ivy font-semibold leading-[1.15] text-[#544997] text-[30px] sm:text-[36px] lg:text-[40px]">
                 {p.name}
               </h1>
-              <span className="shrink-0 bg-[#7a70ba] text-white text-[13px] font-medium leading-[1.35] px-[14px] py-[6px] rounded-[6px]">
-                {p.badge}
-              </span>
+              {p.badge && (
+                <span className="shrink-0 bg-[#7a70ba] text-white text-[13px] font-medium leading-[1.35] px-[14px] py-[6px] rounded-[6px]">
+                  {p.badge}
+                </span>
+              )}
             </div>
 
             {/* meta + rating */}
             <div className="flex flex-wrap items-center gap-x-[14px] gap-y-[8px] text-[#696f96] text-[15px] lg:text-[16px]">
               <span>{p.category}</span>
-              <span className="h-[16px] w-px bg-[#c3c5d5]" />
-              <span>{p.size}</span>
-              <span className="flex items-center gap-[6px] ml-[2px]">
-                <span className="flex items-center gap-[2px]">
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <IconStar
-                      key={i}
-                      className={`size-[18px] ${i < p.rating ? "text-[#7a70ba]" : "text-[#d5d3e4]"}`}
-                    />
-                  ))}
+              {p.size && (
+                <>
+                  <span className="h-[16px] w-px bg-[#c3c5d5]" />
+                  <span>{p.size}</span>
+                </>
+              )}
+              {typeof p.rating === "number" && (
+                <span className="flex items-center gap-[6px] ml-[2px]">
+                  <span className="flex items-center gap-[2px]">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <IconStar
+                        key={i}
+                        className={`size-[18px] ${i < p.rating! ? "text-[#7a70ba]" : "text-[#d5d3e4]"}`}
+                      />
+                    ))}
+                  </span>
+                  {p.ratingValue && <span className="text-[#3f425a] font-medium">{p.ratingValue}</span>}
                 </span>
-                <span className="text-[#3f425a] font-medium">{p.ratingValue}</span>
-              </span>
+              )}
             </div>
 
             {/* price + installment */}
@@ -105,16 +113,20 @@ export default function ProductDetail({ product }: { product?: DetailData }) {
               <p className="font-ivy font-semibold text-[#544997] text-[34px] lg:text-[40px] leading-[1.1]">
                 {p.price}
               </p>
-              <p className="text-[#8b88a8] text-[14px] max-w-[280px] leading-[1.4]">{p.installment}</p>
+              {p.installment && (
+                <p className="text-[#8b88a8] text-[14px] max-w-[280px] leading-[1.4]">{p.installment}</p>
+              )}
             </div>
 
             {/* sold tag */}
-            <div className="flex">
-              <span className="flex items-center gap-[8px] bg-[#eceaf6] text-[#7a70ba] text-[14px] font-medium px-[14px] py-[8px] rounded-[6px]">
-                <IconTag className="size-[16px]" />
-                {p.sold}
-              </span>
-            </div>
+            {p.sold && (
+              <div className="flex">
+                <span className="flex items-center gap-[8px] bg-[#eceaf6] text-[#7a70ba] text-[14px] font-medium px-[14px] py-[8px] rounded-[6px]">
+                  <IconTag className="size-[16px]" />
+                  {p.sold}
+                </span>
+              </div>
+            )}
 
             {/* quantity */}
             <div className="flex flex-col gap-[10px]">
